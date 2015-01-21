@@ -1,0 +1,35 @@
+<html>
+<head>
+<script src="js/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    $.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp",function(result){
+      /*$.each(result, function(i, field){
+        $(".ragione_sociale").append(field.ragione_sociale + " ");
+      });*/
+	  
+	  var items = [];
+	  $.each(result, function(i, field){
+		items.push( "<li id='" + i + "'>" + field.ragione_sociale + "</li>" );
+	  });
+	 
+	  $( "<ul/>", {
+		"class": "list_aziende",
+		html: items.join( "" )
+	  }).appendTo( "div" );
+		});
+	  });
+	});
+
+
+
+</script>
+</head>
+<body>
+
+<button>Get JSON data</button>
+<div></div>
+
+</body>
+</html>
