@@ -17,7 +17,7 @@ $(document).ready(function(){
 	  $( "<ul/>", {
 		"class": "list_aziende",
 		html: items.join( "" )
-	  }).appendTo( "div" );
+	  }).appendTo( '#elenco_completo' );
 		});
 	  });
 	});
@@ -54,7 +54,7 @@ $(document).ready(function(){
 <body>
 
 <button>Get JSON data</button>
-<div></div>
+<div id="elenco_completo"></div>
 
 
 
