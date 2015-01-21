@@ -23,7 +23,32 @@ $(document).ready(function(){
 	});
 
 
-
+	$(window).load(function(){
+        $('#search').keyup(function(){
+            var searchField = $('#search').val();
+            var regex = new RegExp(searchField, "i");
+            var output = '<div class="row">';
+            var count = 1;
+            $.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp", function(data) {
+              $.each(data, function(key, val){
+                if ((val.ragione_sociale.search(regex) != -1) || (val.categoria.search(regex) != -1)) {
+                  output += '<div class="col-md-6 well">';
+                  output += '<div class="col-md-7">';
+                  output += '<h5>' + val.ragione_sociale + '</h5>';
+                  output += '<p>' + val.categoria + '</p>'
+                  output += '</div>';
+                  output += '</div>';
+                  if(count%2 == 0){
+                    output += '</div><div class="row">'
+                  }
+                  count++;
+                }
+              });
+              output += '</div>';
+              $('#results').html(output);
+            }); 
+        });
+      });
 </script>
 </head>
 <body>
@@ -31,5 +56,16 @@ $(document).ready(function(){
 <button>Get JSON data</button>
 <div></div>
 
+
+
+<br><br>
+Cerca
+<form role="form">
+        <div class="form-group">
+          <input type="email" class="form-control input-lg" id="search" placeholder="Cerca...">
+        </div>
+</form>
+
+<div id="results"></div>
 </body>
 </html>
