@@ -1,72 +1,91 @@
 <html>
 <head>
-<script src="js/jquery.min.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+<script src="js/standard.js"></script>
+
 <script>
 $(document).ready(function(){
-  $("button").click(function(){
+  
     $.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp",function(result){
       /*$.each(result, function(i, field){
         $(".ragione_sociale").append(field.ragione_sociale + " ");
       });*/
 	  
 	  var items = [];
+	  var items_id = [];
+	  var items_macrocategorie = [];
 	  $.each(result, function(i, field){
-		items.push( "<li id='" + i + "'>" + field.ragione_sociale + "</li>" );
+		items.push( "<li id='" + field.id_macrocategoria + "'><a data-transition='pop' href='page/categorie.html?id=" + field.id_macrocategoria + "'><img src=''>" + field.macrocategoria + "</a></li>" );
+		items_id.push( field.id_macrocategoria);
+		items_macrocategorie.push( field.macrocategoria);
 	  });
 	 
 	  $( "<ul/>", {
-		"class": "list_aziende",
+		"class": "list_categorie",
+		"data-role": "listview",
 		html: items.join( "" )
-	  }).appendTo( '#elenco_completo' );
+	  }).appendTo( '#results' );
 		});
 	  });
-	});
 
 
-	$(window).load(function(){
-        $('#search').keyup(function(){
-            var searchField = $('#search').val();
-            var regex = new RegExp(searchField, "i");
-            var output = '<div class="row">';
-            var count = 1;
-            $.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp", function(data) {
-              $.each(data, function(key, val){
-                if ((val.ragione_sociale.search(regex) != -1) || (val.categoria.search(regex) != -1)) {
-                  output += '<div class="col-md-6 well">';
-                  output += '<div class="col-md-7">';
-                  output += '<h5>' + val.ragione_sociale + '</h5>';
-                  output += '<p>' + val.categoria + '</p>'
-                  output += '</div>';
-                  output += '</div>';
-                  if(count%2 == 0){
-                    output += '</div><div class="row">'
-                  }
-                  count++;
-                }
-              });
-              output += '</div>';
-              $('#results').html(output);
-            }); 
-        });
-      });
+	/*$("button").click(function(){
+    $.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp",function(result){
+      
+	  var items_id = [];
+	  var items = [];
+	  $.each(result, function(i, field){
+		items.push( "<li id='" + field.id_macrocategoria + "'><a href=''" + field.macrocategoria + "</li>" );
+		items_id.push( field.id_macrocategoria);
+		items.push( field.macrocategoria);
+	  });
+	 
+	  $( "<ul/>", {
+		"class": "list_categorie",
+		html: items.join( "" )
+	  }).appendTo( '#results' );
+		});
+	  });
+	});*/
+
+
 </script>
 </head>
 <body>
-dati
-
-<button>Get JSON data</button>
-<div id="elenco_completo"></div>
 
 
+<div data-role="page">
 
-<br><br>
-Cerca
-<form role="form">
-        <div class="form-group">
-          <input type="email" class="form-control input-lg" id="search" placeholder="Cerca...">
+    <div data-role="header">
+    	PORTALE APP
+        
+        <form role="form">
+            <div class="form-group">
+              <input type="search" name="search" class="form-control input-lg" data-mini="true" id="search" placeholder="Cerca..." />
+            </div>
+        </form>
+    </div>
+    
+    <div role="main" class="ui-content">
+        
+        
+     <!--   <button>prova</button>
+        <div id="elenco_completo"></div>
+        -->
+       
+        
+        
+        <div data-role="content">
+            <div class="content-primary" id="results"></div>	
         </div>
-</form>
-
-<div id="results"></div>
+    </div>
+    
+    <div data-role="footer">
+    </div>
+</div>
 </body>
 </html>

@@ -1,0 +1,76 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+
+<script src="js/standard.js"></script>
+
+<script>
+$(document).ready(function(){
+  
+    $.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp",function(result){
+      /*$.each(result, function(i, field){
+        $(".ragione_sociale").append(field.ragione_sociale + " ");
+      });*/
+	  
+	  var items = [];
+	  var items_id = [];
+	  var items_categorie = [];
+	  $.each(result, function(i, field){
+		items.push( "<li id='" + field.id_categoria + "'><a data-transition='pop' href='page/lista_aziende.html?id=" + field.id_categoria + "'><img src='http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/public/upload_gallery/immagini/'" + field.foto + "'>" + field.categoria + "</a></li>" );
+		items_id.push( field.id_categoria);
+		items_categorie.push( field.categoria);
+	  });
+	 
+	  $( "<ul/>", {
+		"class": "list_categorie",
+		"data-role": "listview",
+		html: items.join( "" )
+	  }).appendTo( '#results' );
+		});
+	  });
+
+
+	
+
+	
+</script>
+</head>
+<body>
+
+
+<div data-role="page">
+
+	<div data-role="header">
+    	<a href="../index.html" data-icon="home" data-role="button"></a>
+        <a  data-icon="back" data-role="button"></a>
+        
+    	PORTALE APP
+        
+        <form role="form">
+            <div class="form-group">
+              <input type="search" name="search" class="form-control input-lg" data-mini="true" id="search" placeholder="Cerca..." />
+            </div>
+        </form>
+    
+    </div>
+
+<div role="content" class="ui-content">
+    
+  
+    
+    <div id="results">
+    <h1>prova azienda</h1>
+    <p>descrizione</p>
+    
+    <img src="">
+    </div>
+</div>
+
+<div data-role="footer">...</div>
+</div>
+</body>
+</html>
