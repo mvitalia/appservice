@@ -10,7 +10,7 @@
 <script>
 $(document).ready(function(){
   	var get = parseGetVars();
-  	alert(get['id']);
+  	
 		var searchField = get['id'];
 		var regex = new RegExp(searchField, "i");
 		var output = '<div class="row"><ul>';
@@ -18,7 +18,7 @@ $(document).ready(function(){
 		$.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp", function(data) {
 		  $.each(data, function(key, val){
 			if ((val.id_macrocategoria.search(regex) != -1)) {
-			  output += "<li id='" + val.id_categoria + "'><a data-transition='pop' href='lista_aziende.html?id=" + val.id_categoria + "'><img src=''>" + val.categoria + "</a></li>";
+			  output += "<li id='" + val.id_categoria + "'><a data-transition='pop' data-role='button' href='lista_aziende.html?id=" + val.id_categoria + "'><img src=''>" + val.categoria + "</a></li>";
 			  
 			  if(count%2 == 0){
 				output += '</div><div class="row">'
@@ -40,7 +40,7 @@ $(document).ready(function(){
 <body>
 
 
-<div data-role="page">
+<div data-role="page" id="page_categorie">
 
 	<div data-role="header">
     	<a href="../index.html" data-icon="home" data-role="button"></a>

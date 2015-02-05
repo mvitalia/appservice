@@ -2,6 +2,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
@@ -19,7 +21,7 @@ $(document).ready(function(){
 	  var items_id = [];
 	  var items_macrocategorie = [];
 	  $.each(result, function(i, field){
-		items.push( "<li id='" + field.id_macrocategoria + "'><a data-transition='pop' href='page/categorie.html?id=" + field.id_macrocategoria + "'><img src=''>" + field.macrocategoria + "</a></li>" );
+		items.push( "<li id='" + field.id_macrocategoria + "'><a data-transition='pop' data-role='button' href='page/categorie.html?id=" + field.id_macrocategoria + "'><img src=''>" + field.macrocategoria + "</a></li>" );
 		items_id.push( field.id_macrocategoria);
 		items_macrocategorie.push( field.macrocategoria);
 	  });
@@ -33,6 +35,14 @@ $(document).ready(function(){
 	  });
 
 
+	
+
+	$(document).on('pagebeforeshow', "#page_categorie",function () {
+		var parameters = $(this).data("url").split("?")[1];
+		parameter = parameters.replace("id=",""); 
+		
+	});       
+		
 	/*$("button").click(function(){
 		$.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp",function(result){
 		  
@@ -83,17 +93,26 @@ $(document).ready(function(){
     </div>
     
     <div data-role="footer">
-    	<a href="#pagetwo"> Realizzazione di Maurizio Voglino</a>    	
+    	<a href="#pagetwo">info</a>    	
     </div>
 </div>
 
 
 <div data-role="page" data-dialog="true" id="pagetwo">
+  <div data-role="header">
+    <h1>Info</h1>
+  </div>
+
   <div data-role="main" class="ui-content">
     Maurizio Voglino<br>
     <a href="mailto:info@mvitalia.com">info@mvitalia.com</a><br>
-    <a href="http://www.mvitalia.com/" target="_blank">www.mvitalia.com</a>
+    <a href="http://www.mvitalia.com/" target="_blank">www.mvitalia.com</a></p>
+    
   </div>
-</div>
+
+  <div data-role="footer">
+    <h1></h1>
+  </div>
+</div> 
 </body>
 </html>
