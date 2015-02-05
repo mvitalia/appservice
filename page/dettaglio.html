@@ -6,32 +6,32 @@
 <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
 
-<script src="js/standard.js"></script>
+<script src="../js/standard.js"></script>
 
 <script>
 $(document).ready(function(){
   
-    $.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp",function(result){
-      /*$.each(result, function(i, field){
-        $(".ragione_sociale").append(field.ragione_sociale + " ");
-      });*/
-	  
-	  var items = [];
-	  var items_id = [];
-	  var items_categorie = [];
-	  $.each(result, function(i, field){
-		items.push( "<li id='" + field.id_categoria + "'><a data-transition='pop' href='page/lista_aziende.html?id=" + field.id_categoria + "'><img src='http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/public/upload_gallery/immagini/'" + field.foto + "'>" + field.categoria + "</a></li>" );
-		items_id.push( field.id_categoria);
-		items_categorie.push( field.categoria);
-	  });
-	 
-	  $( "<ul/>", {
-		"class": "list_categorie",
-		"data-role": "listview",
-		html: items.join( "" )
-	  }).appendTo( '#results' );
-		});
-	  });
+    var get = parseGetVars();
+  	
+		var searchField = get['id'];
+		var regex = new RegExp(searchField, "i");
+		var output = '<div class="row"><ul>';
+		var count = 1;
+		$.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp", function(data) {
+		  $.each(data, function(key, val){
+			if ((val.ID.search(regex) != -1)) {
+			  output += "<img src=''><h1>" + val.ragione_sociale + "</h1><p>descrizione</p></li>";
+			  
+			  if(count%2 == 0){
+				output += '</div><div class="row">'
+			  }
+			  count++;
+			}
+		  });
+		  output += '</ul></div>';
+		  $('#results').html(output);
+		}); 
+	});
 
 
 	

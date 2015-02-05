@@ -1,6 +1,6 @@
 <html>
 <head>
-
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
 <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
@@ -34,38 +34,36 @@ $(document).ready(function(){
 
 
 	/*$("button").click(function(){
-    $.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp",function(result){
-      
-	  var items_id = [];
-	  var items = [];
-	  $.each(result, function(i, field){
-		items.push( "<li id='" + field.id_macrocategoria + "'><a href=''" + field.macrocategoria + "</li>" );
-		items_id.push( field.id_macrocategoria);
-		items.push( field.macrocategoria);
-	  });
-	 
-	  $( "<ul/>", {
-		"class": "list_categorie",
-		html: items.join( "" )
-	  }).appendTo( '#results' );
-		});
-	  });
-	});*/
-
+		$.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp",function(result){
+		  
+		  var items_id = [];
+		  var items = [];
+		  $.each(result, function(i, field){
+			items.push( "<li id='" + field.id_macrocategoria + "'><a href=''" + field.macrocategoria + "</li>" );
+			items_id.push( field.id_macrocategoria);
+			items.push( field.macrocategoria);
+		  });
+		 
+		  $( "<ul/>", {
+			"class": "list_categorie",
+			html: items.join( "" )
+		  }).appendTo( '#results' );
+			});
+		});*/
 
 </script>
 </head>
 <body>
 
 
-<div data-role="page">
+<div data-role="page" id="pageone">
 
     <div data-role="header">
     	PORTALE APP
         
-        <form role="form">
+        <form role="form" style="width:300px">
             <div class="form-group">
-              <input type="search" name="search" class="form-control input-lg" data-mini="true" id="search" placeholder="Cerca..." />
+              <input type="search" name="search" class="form-control input-lg" data-mini="true" id="search" placeholder="Cerca..."  />
             </div>
         </form>
     </div>
@@ -73,8 +71,8 @@ $(document).ready(function(){
     <div role="main" class="ui-content">
         
         
-     <!--   <button>prova</button>
-        <div id="elenco_completo"></div>
+      <!-- <button>prova</button>
+       <div id="elenco_completo"></div>
         -->
        
         
@@ -85,7 +83,17 @@ $(document).ready(function(){
     </div>
     
     <div data-role="footer">
+    	<a href="#pagetwo"> Realizzazione di Maurizio Voglino</a>    	
     </div>
+</div>
+
+
+<div data-role="page" data-dialog="true" id="pagetwo">
+  <div data-role="main" class="ui-content">
+    Maurizio Voglino<br>
+    <a href="mailto:info@mvitalia.com">info@mvitalia.com</a><br>
+    <a href="http://www.mvitalia.com/" target="_blank">www.mvitalia.com</a>
+  </div>
 </div>
 </body>
 </html>
