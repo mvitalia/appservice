@@ -23,6 +23,18 @@ $(window).load(function(){
 
 
 
+$(document).on('vclick', '.small', function(e){
+    $(".txtwrapper").css('font-size', '15px');
+});
+
+$(document).on('vclick', '.med', function(e){
+    $(".txtwrapper").css('font-size', '20px');
+});
+
+$(document).on('vclick', '.large', function(e){
+    $(".txtwrapper").css('font-size', '25px');
+});
+
 
 function parseGetVars()
 {

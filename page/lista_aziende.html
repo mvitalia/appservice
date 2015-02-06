@@ -19,7 +19,7 @@ $(document).ready(function(){
 		$.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp", function(data) {
 		  $.each(data, function(key, val){
 			if ((val.id_categoria.search(regex) != -1)) {
-			  output += "<li id='" + val.ID + "'><a data-transition='pop' href='dettaglio.html?id=" + val.ID+ "'><img src=''>" + val.ragione_sociale + "</a></li>";
+			  output += "<li id='" + val.ID + "'><a data-transition='pop' href='dettaglio.html?id=" + val.ID+ "'><img src='http://www.mvitalia.com/dimostrativi/patrizia/portaleapp%5Cpublic%5Cupload_gallery%5Cimmagini%5C" + val.foto_principale + "' width='80' >" + val.ragione_sociale + "</a></li>";
 			  
 			  if(count%2 == 0){
 				output += '</div><div class="row">'
