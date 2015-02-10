@@ -1,3 +1,11 @@
 .txtwrapper{
     font-size: 24px;
 }
+
+#scheda_azienda {}
+#scheda_azienda .logo_azienda {float:left;width:15%}
+#scheda_azienda .info_azienda {float:left;padding-left:30px;width:80%}
+#scheda_azienda .info_azienda h1 {}
+#scheda_azienda .info_azienda p {margin:0}
+
+#scheda_azienda .descrizione {clear:both}

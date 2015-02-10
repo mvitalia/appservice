@@ -27,6 +27,7 @@ $(document).on("pageinit", "#page_index", function () {
 			li += '<li><a href="#" id="' + name.id_macrocategoria + '" class="macro-go">' + name.macrocategoria + '</a></li>';
 		});
 		//append list to ul
+		$("#lista_macrocategorie").empty();
 		$("#lista_macrocategorie").append(li).promise().done(function () {
 			//wait for append to finish - thats why you use a promise()
 			//done() will run after append is done
@@ -39,7 +40,12 @@ $(document).on("pageinit", "#page_index", function () {
 				//Now the URL in the address bar will read index.html#details-page
 				//where #details-page is the "id" of the second page
 				//we're gonna redirect to that now using changePage() method
-				$.mobile.changePage("#page_categorie");
+				//$.mobile.changePage("#page_categorie");
+				$.mobile.pageContainer.pagecontainer("change", "#page_categorie", {
+					stuff: this.id,
+					transition: "fade"
+				});
+				
 			});
 	
 			//refresh list to enhance its styling.
@@ -47,6 +53,8 @@ $(document).on("pageinit", "#page_index", function () {
 		});
 	});
 });
+
+
 
 /*
 $(document).ready(function(){
@@ -75,10 +83,19 @@ $(document).ready(function(){
 		var parameters = $(this).data("url").split("?")[1];
 		parameter = parameters.replace("id=",""); 
 		
-	});*/     
+	});*/   
+	
+	$(document).on("pagebeforechange", function (e, data) {
+		if (data.toPage[0].id == "page_categorie") {
+			id_macrocategoria = data.options.stuff;
+		}
+	});
+	
+	
 	$(document).on("pagebeforeshow", "#page_categorie", function () {
 		//get from data - you put this here when the "a" wa clicked in the previous page
 		var info_categ = $(this).data("info");
+		
 		//string to put HTML in
 		//set up string for adding <li/>
 		var li = "";
@@ -88,9 +105,12 @@ $(document).ready(function(){
 			//note the use of += in the variable
 			//meaning I'm adding to the existing data. not replacing it.
 			//store index value in array as id of the <a> tag
-			li += '<li><a href="#" id="' + name.id_categoria + '" class="categ-go">' + name.categoria + '</a></li>';
+			if ((name.id_macrocategoria == id_macrocategoria)) {
+				li += '<li><a href="#" id="' + name.id_categoria + '" class="categ-go">' + name.categoria + '</a></li>';
+			}
 		});
 		//append list to ul
+		$("#lista_categorie").empty();
 		$("#lista_categorie").append(li).promise().done(function () {
 			//wait for append to finish - thats why you use a promise()
 			//done() will run after append is done
@@ -103,7 +123,11 @@ $(document).ready(function(){
 				//Now the URL in the address bar will read index.html#details-page
 				//where #details-page is the "id" of the second page
 				//we're gonna redirect to that now using changePage() method
-				$.mobile.changePage("#page_lista_aziende");
+				//$.mobile.changePage("#page_lista_aziende");
+				$.mobile.pageContainer.pagecontainer("change", "#page_lista_aziende", {
+					stuff: this.id,
+					transition: "fade"
+				});
 			});
 	
 			//refresh list to enhance its styling.
@@ -111,21 +135,35 @@ $(document).ready(function(){
 		});
 	});  
 	
+	
+	
+	/* LISTA AZIENDE */
+	$(document).on("pagebeforechange", function (e, data) {
+		if (data.toPage[0].id == "page_lista_aziende") {
+			id_categoria = data.options.stuff;
+		}
+	});
+	
+	
 	$(document).on("pagebeforeshow", "#page_lista_aziende", function () {
 		//get from data - you put this here when the "a" wa clicked in the previous page
-		var info_aziende = $(this).data("info");
+		var info_azienda = $(this).data("info");
+		
 		//string to put HTML in
 		//set up string for adding <li/>
 		var li = "";
 		//container for $li to be added
-		$.each(info_aziende, function (i, name) {
+		$.each(info_azienda, function (i, name) {
 			//add the <li> to "li" variable
 			//note the use of += in the variable
 			//meaning I'm adding to the existing data. not replacing it.
 			//store index value in array as id of the <a> tag
-			li += '<li><a href="#" id="' + name.ID + '" class="azienda-go">' + name.ragione_sociale + '</a></li>';
+			if ((name.id_categoria == id_categoria)) {
+				li += '<li><a href="#" id="' + name.id + '" class="azienda-go">' + name.ragione_sociale + '</a></li>';
+			}
 		});
 		//append list to ul
+		$("#lista_aziende").empty();
 		$("#lista_aziende").append(li).promise().done(function () {
 			//wait for append to finish - thats why you use a promise()
 			//done() will run after append is done
@@ -133,12 +171,16 @@ $(document).ready(function(){
 			$(this).on("click", ".azienda-go", function (e) {
 				e.preventDefault();
 				//store the information in the next page's data
-				$("#page_dettaglio").data("info", info_aziende[this.id]);
+				$("#page_dettaglio").data("info", info_azienda);
 				//change the page # to second page. 
 				//Now the URL in the address bar will read index.html#details-page
 				//where #details-page is the "id" of the second page
 				//we're gonna redirect to that now using changePage() method
-				$.mobile.changePage("#page_dettaglio");
+				//$.mobile.changePage("#page_lista_aziende");
+				$.mobile.pageContainer.pagecontainer("change", "#page_dettaglio", {
+					stuff: this.id,
+					transition: "fade"
+				});
 			});
 	
 			//refresh list to enhance its styling.
@@ -146,23 +188,68 @@ $(document).ready(function(){
 		});
 	});  
 	
+	
+	
+	
+	/*DETTAGLIO*/
+	
+	$(document).on("pagebeforechange", function (e, data) {
+		if (data.toPage[0].id == "page_dettaglio") {
+			id_azienda = data.options.stuff;
+		}
+	});
+	
 	$(document).on("pagebeforeshow", "#page_dettaglio", function () {
 		//get from data - you put this here when the "a" wa clicked in the previous page
-		var info = $(this).data("info");
+		var info_dettaglio = $(this).data("info");
+		
 		//string to put HTML in
-		var info_view = "";
-		//use for..in to iterate through object
-		for (var key in info) {
-			//Im using grid layout here.
-			//use any kind of layout you want.
-			//key is the key of the property in the object 
-			//if obj = {name: 'k'}
-			//key = name, value = k
-			info_view += '<div class="ui-grid-a"><div class="ui-block-a"><div class="ui-bar field" style="font-weight : bold; text-align: left;">' + key + '</div></div><div class="ui-block-b"><div class="ui-bar value" style="width : 75%">' + info[key] + '</div></div></div>';
-		}
-		//add this to html
-		$(this).find("[data-role=content]").html(info_view);
-	});  
+		//set up string for adding <li/>
+		var scheda = "";
+		//container for $li to be added
+		$.each(info_dettaglio, function (i, name) {
+			//add the <li> to "li" variable
+			//note the use of += in the variable
+			//meaning I'm adding to the existing data. not replacing it.
+			//store index value in array as id of the <a> tag
+			if ((name.id == id_azienda)) {
+				scheda += "<img src='http://www.mvitalia.com/dimostrativi/patrizia/portaleapp%5Cpublic%5Cupload_gallery%5Cimmagini%5C" + name.foto_principale + "' class='logo_azienda' >";
+				scheda += "<div class='info_azienda'><h1>" + name.ragione_sociale + "</h1>";
+				scheda += "<p>" + name.indirizzo + " " + name.num + "</p><p>" + name.cap + " " + name.paese + " " + name.provincia + "</div>";
+				scheda += "<div class='descrizione'>" + name.descrizione  + "</div>";
+				scheda += "<div class='servizi'>" + name.servizi  + "</div>";
+				scheda += "<div class='contatti'>E-mail: <a href='mailto:" + name.mail + "'>" + name.mail  + "</a><br>Tel.: <a href='tel:" + name.tel + "'>" + name.tel  + "</a><br>Fax: " + name.fax + "</div>";
+				
+				scheda +="<div class='box_extra'><a href='#azienda_gallery' data-icon='gear' data-role='button'>Gallery</a>";
+				scheda +="<a href='#azienda_news' data-icon='gear' data-role='button'>News</a>";
+				scheda +="<a href='#azienda_promo' data-icon='gear' data-role='button'>Promo</a></div>";
+			}
+		});
+		//append list to ul
+		$("#scheda_azienda").empty();
+		$("#scheda_azienda").append(scheda).promise().done(function () {
+			
+			$(this).on("click", ".dettaglio-go", function (e) {
+				e.preventDefault();
+				//store the information in the next page's data
+				$("#page_dettaglio").data("info", info_dettaglio[this.id]);
+				//change the page # to second page. 
+				//Now the URL in the address bar will read index.html#details-page
+				//where #details-page is the "id" of the second page
+				//we're gonna redirect to that now using changePage() method
+				$.mobile.pageContainer.pagecontainer("change", "#page_dettaglio", {
+					stuff: this.id,
+					transition: "fade"
+				});
+			});
+	
+			//refresh list to enhance its styling.
+			//$(this).listview("refresh");
+		});
+	}); 
+	
+	
+	
 		
 	/*$("button").click(function(){
 		$.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp",function(result){
@@ -203,14 +290,6 @@ $(document).ready(function(){
         </div>
         
         <div role="main" class="ui-content">
-            
-            
-          <!-- <button>prova</button>
-           <div id="elenco_completo"></div>
-            -->
-           
-            
-            
             <div data-role="content">
                 <ul data-role="listview" id="lista_macrocategorie" data-divider-theme="a" data-inset="true">
             		<li data-role="list-divider" data-theme="b" role="heading">Macrocategorie</li>
@@ -226,14 +305,21 @@ $(document).ready(function(){
 
 	<!-- categorie -->
     <div data-role="page" id="page_categorie">
-        <div data-role="header" data-theme="b"><a href="#" data-rel="back" data-role="button">Go back</a>
-    
+        <div data-role="header" data-theme="b">
+        	<a href="#" data-rel="back" data-role="button" data-icon="back">Indietro</a>
+    		<h1>Categorie</h1>
+            <a href="#settings" data-icon="gear">Settings</a>
+            
+            <form role="form" style="width:300px">
+                <div class="form-group">
+                  <input type="search" name="search" class="form-control input-lg" data-mini="true" id="search" placeholder="Cerca..."  />
+                </div>
+            </form>
     
         </div>
         <div data-role="content">
         	<div data-role="content">
                 <ul data-role="listview" id="lista_categorie" data-divider-theme="a" data-inset="true">
-            		<li data-role="list-divider" data-theme="b" role="heading">Categorie</li>
         		</ul>
             </div>
         
@@ -243,8 +329,16 @@ $(document).ready(function(){
 
 	<!-- lista aziende -->
 	<div data-role="page" id="page_lista_aziende">
-        <div data-role="header" data-theme="b"><a href="#" data-rel="back" data-role="button">Go back</a>
-    
+        <div data-role="header" data-theme="b">
+        	<a href="#" data-rel="back" data-icon="back" data-role="button">Indietro</a>
+    		<h1>Aziende</h1>
+            <a href="#settings" data-icon="gear">Settings</a>
+            
+            <form role="form" style="width:300px">
+                <div class="form-group">
+                  <input type="search" name="search" class="form-control input-lg" data-mini="true" id="search" placeholder="Cerca..."  />
+                </div>
+            </form>
     
         </div>
         <div data-role="content">
@@ -259,20 +353,86 @@ $(document).ready(function(){
     
     <!-- dettaglio -->
     <div data-role="page" id="page_dettaglio">
-        <div data-role="header" data-theme="b"><a href="#" data-rel="back" data-role="button">Go back</a>
-    
-             <h1>Dettaglio</h1>
+        <div data-role="header" data-theme="b">
+        	<a href="#" data-rel="back" data-icon="back" data-role="button">Indietro</a>
+    		<h1>Dettaglio</h1>
+            <a href="#settings" data-icon="gear">Settings</a>
+            
+            <form role="form" style="width:300px">
+                <div class="form-group">
+                  <input type="search" name="search" class="form-control input-lg" data-mini="true" id="search" placeholder="Cerca..."  />
+                </div>
+            </form>
     
         </div>
-        <div data-role="content"></div>
+        <div data-role="content">
+        	<div data-role="content">
+                <div id="scheda_azienda" data-divider-theme="a" data-inset="true">
+        		</div>
+            </div>
+        </div>
     </div>
+    
+    
+    <!-- gallery -->
+    <div data-role="page" id="azienda_gallery">
+      <div data-role="header">
+      	<a href="#" data-rel="back" data-icon="back" data-role="button">Indietro</a>
+        <h1>Gallery</h1>
+      </div>
+    
+      <div data-role="main" class="ui-content">
+        Gallery
+        
+      </div>
+    
+      <div data-role="footer">
+        <h1></h1>
+      </div>
+    </div> 
+    
+    <!-- news -->
+    <div data-role="page" id="azienda_news">
+      <div data-role="header">
+      	<a href="#" data-rel="back" data-icon="back" data-role="button">Indietro</a>
+        <h1>News</h1>
+      </div>
+    
+      <div data-role="main" class="ui-content">
+        News
+        
+      </div>
+    
+      <div data-role="footer">
+        <h1></h1>
+      </div>
+    </div> 
+    
+    
+    <!-- promo -->
+    <div data-role="page" id="azienda_promo">
+      <div data-role="header">
+      	<a href="#" data-rel="back" data-icon="back" data-role="button">Indietro</a>
+        <h1>Promo</h1>
+      </div>
+    
+      <div data-role="main" class="ui-content">
+        Promo
+        
+      </div>
+    
+      <div data-role="footer">
+        <h1></h1>
+      </div>
+    </div> 
+    
 
 
 
 	<!-- setting -->
 	<div id="settings" data-role="page">
             <div data-role="header">
-                <a href="#" data-rel="back" data-icon="back">Back</a>
+                <a href="#" data-rel="back" data-icon="back" data-icon="back">Indietro</a>
                 <h1>Settings</h1>
             </div>
             <div data-role="content">
