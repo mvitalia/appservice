@@ -12,6 +12,7 @@
 
 <script>
 
+// MACROCATEGORIE
 $(document).on("pageinit", "#page_index", function () {
 	$.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp", function(info){
     	
@@ -55,220 +56,362 @@ $(document).on("pageinit", "#page_index", function () {
 });
 
 
+// CATEGORIE
+$(document).on("pagebeforechange", function (e, data) {
+	if (data.toPage[0].id == "page_categorie") {
+		id_macrocategoria = data.options.stuff;
+	}
+});
 
-/*
-$(document).ready(function(){
-	  
-	  var items = [];
-	  var items_id = [];
-	  var items_macrocategorie = [];
-	  $.each(result, function(i, field){
-		items.push( "<li id='" + field.id_macrocategoria + "'><a data-transition='pop' data-role='button' href='page/categorie.html?id=" + field.id_macrocategoria + "'><img src=''>" + field.macrocategoria + "</a></li>" );
-		items_id.push( field.id_macrocategoria);
-		items_macrocategorie.push( field.macrocategoria);
-	  });
-	 
-	  $( "<ul/>", {
-		"class": "list_categorie",
-		"data-role": "listview",
-		html: items.join( "" )
-	  }).appendTo( '#results' );
-		});
-	  });
 
-*/
+$(document).on("pagebeforeshow", "#page_categorie", function () {
+	//get from data - you put this here when the "a" wa clicked in the previous page
+	var info_categ = $(this).data("info");
 	
-
-	/*$(document).on('pagebeforeshow', "#page_categorie",function () {
-		var parameters = $(this).data("url").split("?")[1];
-		parameter = parameters.replace("id=",""); 
-		
-	});*/   
-	
-	$(document).on("pagebeforechange", function (e, data) {
-		if (data.toPage[0].id == "page_categorie") {
-			id_macrocategoria = data.options.stuff;
+	//string to put HTML in
+	//set up string for adding <li/>
+	var li = "";
+	//container for $li to be added
+	$.each(info_categ, function (i, name) {
+		//add the <li> to "li" variable
+		//note the use of += in the variable
+		//meaning I'm adding to the existing data. not replacing it.
+		//store index value in array as id of the <a> tag
+		if ((name.id_macrocategoria == id_macrocategoria)) {
+			li += '<li><a href="#" id="' + name.id_categoria + '" class="categ-go">' + name.categoria + '</a></li>';
 		}
 	});
-	
-	
-	$(document).on("pagebeforeshow", "#page_categorie", function () {
-		//get from data - you put this here when the "a" wa clicked in the previous page
-		var info_categ = $(this).data("info");
-		
-		//string to put HTML in
-		//set up string for adding <li/>
-		var li = "";
-		//container for $li to be added
-		$.each(info_categ, function (i, name) {
-			//add the <li> to "li" variable
-			//note the use of += in the variable
-			//meaning I'm adding to the existing data. not replacing it.
-			//store index value in array as id of the <a> tag
-			if ((name.id_macrocategoria == id_macrocategoria)) {
-				li += '<li><a href="#" id="' + name.id_categoria + '" class="categ-go">' + name.categoria + '</a></li>';
-			}
-		});
-		//append list to ul
-		$("#lista_categorie").empty();
-		$("#lista_categorie").append(li).promise().done(function () {
-			//wait for append to finish - thats why you use a promise()
-			//done() will run after append is done
-			//add the click event for the redirection to happen to #details-page
-			$(this).on("click", ".categ-go", function (e) {
-				e.preventDefault();
-				//store the information in the next page's data
-				$("#page_lista_aziende").data("info", info_categ);
-				//change the page # to second page. 
-				//Now the URL in the address bar will read index.html#details-page
-				//where #details-page is the "id" of the second page
-				//we're gonna redirect to that now using changePage() method
-				//$.mobile.changePage("#page_lista_aziende");
-				$.mobile.pageContainer.pagecontainer("change", "#page_lista_aziende", {
-					stuff: this.id,
-					transition: "fade"
-				});
+	//append list to ul
+	$("#lista_categorie").empty();
+	$("#lista_categorie").append(li).promise().done(function () {
+		//wait for append to finish - thats why you use a promise()
+		//done() will run after append is done
+		//add the click event for the redirection to happen to #details-page
+		$(this).on("click", ".categ-go", function (e) {
+			e.preventDefault();
+			//store the information in the next page's data
+			$("#page_lista_aziende").data("info", info_categ);
+			//change the page # to second page. 
+			//Now the URL in the address bar will read index.html#details-page
+			//where #details-page is the "id" of the second page
+			//we're gonna redirect to that now using changePage() method
+			//$.mobile.changePage("#page_lista_aziende");
+			$.mobile.pageContainer.pagecontainer("change", "#page_lista_aziende", {
+				stuff: this.id,
+				transition: "fade"
 			});
-	
-			//refresh list to enhance its styling.
-			$(this).listview("refresh");
 		});
-	});  
+
+		//refresh list to enhance its styling.
+		$(this).listview("refresh");
+	});
+});  
+
+
+
+/* LISTA AZIENDE */
+$(document).on("pagebeforechange", function (e, data) {
+	if (data.toPage[0].id == "page_lista_aziende") {
+		id_categoria = data.options.stuff;
+	}
+});
+
+
+$(document).on("pagebeforeshow", "#page_lista_aziende", function () {
+	//get from data - you put this here when the "a" wa clicked in the previous page
+	var info_azienda = $(this).data("info");
 	
-	
-	
-	/* LISTA AZIENDE */
-	$(document).on("pagebeforechange", function (e, data) {
-		if (data.toPage[0].id == "page_lista_aziende") {
-			id_categoria = data.options.stuff;
+	//string to put HTML in
+	//set up string for adding <li/>
+	var li = "";
+	//container for $li to be added
+	$.each(info_azienda, function (i, name) {
+		//add the <li> to "li" variable
+		//note the use of += in the variable
+		//meaning I'm adding to the existing data. not replacing it.
+		//store index value in array as id of the <a> tag
+		if ((name.id_categoria == id_categoria)) {
+			li += '<li><a href="#" id="' + name.id + '" class="azienda-go">' + name.ragione_sociale + '</a></li>';
 		}
 	});
-	
-	
-	$(document).on("pagebeforeshow", "#page_lista_aziende", function () {
-		//get from data - you put this here when the "a" wa clicked in the previous page
-		var info_azienda = $(this).data("info");
-		
-		//string to put HTML in
-		//set up string for adding <li/>
-		var li = "";
-		//container for $li to be added
-		$.each(info_azienda, function (i, name) {
-			//add the <li> to "li" variable
-			//note the use of += in the variable
-			//meaning I'm adding to the existing data. not replacing it.
-			//store index value in array as id of the <a> tag
-			if ((name.id_categoria == id_categoria)) {
-				li += '<li><a href="#" id="' + name.id + '" class="azienda-go">' + name.ragione_sociale + '</a></li>';
-			}
-		});
-		//append list to ul
-		$("#lista_aziende").empty();
-		$("#lista_aziende").append(li).promise().done(function () {
-			//wait for append to finish - thats why you use a promise()
-			//done() will run after append is done
-			//add the click event for the redirection to happen to #details-page
-			$(this).on("click", ".azienda-go", function (e) {
-				e.preventDefault();
-				//store the information in the next page's data
-				$("#page_dettaglio").data("info", info_azienda);
-				//change the page # to second page. 
-				//Now the URL in the address bar will read index.html#details-page
-				//where #details-page is the "id" of the second page
-				//we're gonna redirect to that now using changePage() method
-				//$.mobile.changePage("#page_lista_aziende");
-				$.mobile.pageContainer.pagecontainer("change", "#page_dettaglio", {
-					stuff: this.id,
-					transition: "fade"
-				});
+	//append list to ul
+	$("#lista_aziende").empty();
+	$("#lista_aziende").append(li).promise().done(function () {
+		//wait for append to finish - thats why you use a promise()
+		//done() will run after append is done
+		//add the click event for the redirection to happen to #details-page
+		$(this).on("click", ".azienda-go", function (e) {
+			e.preventDefault();
+			//store the information in the next page's data
+			$("#page_dettaglio").data("info", info_azienda);
+			//change the page # to second page. 
+			//Now the URL in the address bar will read index.html#details-page
+			//where #details-page is the "id" of the second page
+			//we're gonna redirect to that now using changePage() method
+			//$.mobile.changePage("#page_lista_aziende");
+			$.mobile.pageContainer.pagecontainer("change", "#page_dettaglio", {
+				stuff: this.id,
+				transition: "fade"
 			});
-	
-			//refresh list to enhance its styling.
-			$(this).listview("refresh");
 		});
-	});  
-	
-	
-	
-	
-	/*DETTAGLIO*/
-	
-	$(document).on("pagebeforechange", function (e, data) {
-		if (data.toPage[0].id == "page_dettaglio") {
-			id_azienda = data.options.stuff;
-		}
+
+		//refresh list to enhance its styling.
+		$(this).listview("refresh");
 	});
-	
-	$(document).on("pagebeforeshow", "#page_dettaglio", function () {
-		//get from data - you put this here when the "a" wa clicked in the previous page
-		var info_dettaglio = $(this).data("info");
-		
-		//string to put HTML in
-		//set up string for adding <li/>
-		var scheda = "";
-		//container for $li to be added
-		$.each(info_dettaglio, function (i, name) {
-			//add the <li> to "li" variable
-			//note the use of += in the variable
-			//meaning I'm adding to the existing data. not replacing it.
-			//store index value in array as id of the <a> tag
-			if ((name.id == id_azienda)) {
-				scheda += "<img src='http://www.mvitalia.com/dimostrativi/patrizia/portaleapp%5Cpublic%5Cupload_gallery%5Cimmagini%5C" + name.foto_principale + "' class='logo_azienda' >";
-				scheda += "<div class='info_azienda'><h1>" + name.ragione_sociale + "</h1>";
-				scheda += "<p>" + name.indirizzo + " " + name.num + "</p><p>" + name.cap + " " + name.paese + " " + name.provincia + "</div>";
-				scheda += "<div class='descrizione'>" + name.descrizione  + "</div>";
-				scheda += "<div class='servizi'>" + name.servizi  + "</div>";
-				scheda += "<div class='contatti'>E-mail: <a href='mailto:" + name.mail + "'>" + name.mail  + "</a><br>Tel.: <a href='tel:" + name.tel + "'>" + name.tel  + "</a><br>Fax: " + name.fax + "</div>";
-				
-				scheda +="<div class='box_extra'><a href='#azienda_gallery' data-icon='gear' data-role='button'>Gallery</a>";
-				scheda +="<a href='#azienda_news' data-icon='gear' data-role='button'>News</a>";
-				scheda +="<a href='#azienda_promo' data-icon='gear' data-role='button'>Promo</a></div>";
-			}
-		});
-		//append list to ul
-		$("#scheda_azienda").empty();
-		$("#scheda_azienda").append(scheda).promise().done(function () {
+});  
+
+
+
+
+/*DETTAGLIO*/
+
+$(document).on("pagebeforechange", function (e, data) {
+	if (data.toPage[0].id == "page_dettaglio") {
+		id_azienda = data.options.stuff;
+	}
+});
+
+
+$(document).on("pagebeforeshow", "#page_dettaglio", function () {
+	//get from data - you put this here when the "a" wa clicked in the previous page
+	var info_dettaglio = $(this).data("info");
+	$("#scheda_azienda").empty();
+	//string to put HTML in
+	//set up string for adding <li/>
+	var scheda = "";
+	//container for $li to be added
+	$.each(info_dettaglio, function (i, name) {
+		//add the <li> to "li" variable
+		//note the use of += in the variable
+		//meaning I'm adding to the existing data. not replacing it.
+		//store index value in array as id of the <a> tag
+		if (name.id == id_azienda) {
 			
-			$(this).on("click", ".dettaglio-go", function (e) {
-				e.preventDefault();
-				//store the information in the next page's data
-				$("#page_dettaglio").data("info", info_dettaglio[this.id]);
-				//change the page # to second page. 
-				//Now the URL in the address bar will read index.html#details-page
-				//where #details-page is the "id" of the second page
-				//we're gonna redirect to that now using changePage() method
-				$.mobile.pageContainer.pagecontainer("change", "#page_dettaglio", {
-					stuff: this.id,
-					transition: "fade"
-				});
+			// IMMAGINE PRINCIPALE
+			$.each(name.foto, function (i, foto) {
+				if (foto.tipologia == 'principale') {
+					scheda += "<img src='http://www.mvitalia.com/dimostrativi/patrizia/portaleapp%5Cpublic%5Cupload_gallery%5Cimmagini%5C" + foto.immagine + "' class='logo_azienda' >";
+				}
 			});
-	
-			//refresh list to enhance its styling.
-			//$(this).listview("refresh");
-		});
-	}); 
-	
-	
-	
-		
-	/*$("button").click(function(){
-		$.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp",function(result){
-		  
-		  var items_id = [];
-		  var items = [];
-		  $.each(result, function(i, field){
-			items.push( "<li id='" + field.id_macrocategoria + "'><a href=''" + field.macrocategoria + "</li>" );
-			items_id.push( field.id_macrocategoria);
-			items.push( field.macrocategoria);
-		  });
-		 
-		  $( "<ul/>", {
-			"class": "list_categorie",
-			html: items.join( "" )
-		  }).appendTo( '#results' );
-			});
-		});*/
+			
+			scheda += "<div class='info_azienda'><h1>" + name.ragione_sociale + "</h1>"; // RAGIONE SOCIALE
+			scheda += "<p>" + name.indirizzo + " " + name.num + "</p><p>" + name.cap + " " + name.paese + " " + name.provincia + "</div>"; // INDIRIZZO
+			scheda += "<div class='descrizione'>" + name.descrizione + "</div>"; // DESCRIZIONE
+			scheda += "<div class='servizi'>" + name.servizi  + "</div>"; // SERVIZI
+			scheda += "<div class='contatti'>E-mail: <a href='mailto:" + name.mail + "'>" + name.mail  + "</a><br>Tel.: <a href='tel:" + name.tel + "'>" + name.tel  + "</a><br>Fax: " + name.fax + "</div>"; // RIFERIMENTI
 
+			
+			
+			if (name.tipo_contratto != 'base'){
+				scheda +="<div class='box_extra'><a id=" + name.id + " href='#azienda_gallery' class='azienda_gallery' data-icon='camera' data-role='button'>Gallery</a>";
+				
+				if (name.tipo_contratto != 'intermedio') {
+					scheda +="<a id=" + name.id + " href='#azienda_news' class='azienda_news' data-icon='calendar' data-role='button'>News</a>";
+					scheda +="<a id=" + name.id + " href='#azienda_promo' class='azienda_promo' data-icon='heart' data-role='button'>Promo</a>";
+				}
+				scheda +="</div>"
+			}
+		}
+	});
+	//append list to ul
+	var htmlObject = $(scheda);
+	$("#scheda_azienda").append(htmlObject).promise().done(function () {
+		
+		$(this).on("click", ".azienda_gallery", function (e) {
+			e.preventDefault();
+			//store the information in the next page's data
+			$("#azienda_gallery").data("info", info_dettaglio);
+			
+			//change the page # to second page. 
+			//Now the URL in the address bar will read index.html#details-page
+			//where #details-page is the "id" of the second page
+			//we're gonna redirect to that now using changePage() method
+			//$.mobile.changePage("#page_lista_aziende");
+			$.mobile.pageContainer.pagecontainer("change", "#azienda_gallery", {
+				stuff: this.id,
+				transition: "fade"
+			});
+			
+		});
+		
+		$(this).on("click", ".azienda_news", function (e) {
+			e.preventDefault();
+			//store the information in the next page's data
+			$("#azienda_news").data("info", info_dettaglio);
+			
+			//change the page # to second page. 
+			//Now the URL in the address bar will read index.html#details-page
+			//where #details-page is the "id" of the second page
+			//we're gonna redirect to that now using changePage() method
+			//$.mobile.changePage("#page_lista_aziende");
+			$.mobile.pageContainer.pagecontainer("change", "#azienda_news", {
+				stuff: this.id,
+				transition: "fade"
+			});
+			
+		});
+		
+		$(this).on("click", ".azienda_promo", function (e) {
+			e.preventDefault();
+			//store the information in the next page's data
+			$("#azienda_promo").data("info", info_dettaglio);
+			
+			//change the page # to second page. 
+			//Now the URL in the address bar will read index.html#details-page
+			//where #details-page is the "id" of the second page
+			//we're gonna redirect to that now using changePage() method
+			//$.mobile.changePage("#page_lista_aziende");
+			$.mobile.pageContainer.pagecontainer("change", "#azienda_promo", {
+				stuff: this.id,
+				transition: "fade"
+			});
+			
+		});
+
+		//refresh list to enhance its styling.
+		//$(this).listview("refresh");
+	});
+}); 
+
+
+/* GALLERY */
+$(document).on("pagebeforechange", function (e, data) {
+	if (data.toPage[0].id == "azienda_gallery") {
+		id_azienda = data.options.stuff;
+	}
+});
+
+
+$(document).on("pagebeforeshow", "#azienda_gallery", function () {
+	//get from data - you put this here when the "a" wa clicked in the previous page
+	var info_gallery = $(this).data("info");
+	$("#scheda_gallery").empty();
+	//string to put HTML in
+	//set up string for adding <li/>
+	var scheda = "";
+	//container for $li to be added
+	$.each(info_gallery, function (i, name) {
+		//add the <li> to "li" variable
+		//note the use of += in the variable
+		//meaning I'm adding to the existing data. not replacing it.
+		//store index value in array as id of the <a> tag
+		if (name.id == id_azienda) {
+			
+			// IMMAGINE PRINCIPALE
+			$.each(name.foto, function (i, foto) {
+				if (foto.tipologia == 'gallery') {
+					scheda += "<h1>" + foto.titolo + "</h1>";
+					scheda += "<img src='http://www.mvitalia.com/dimostrativi/patrizia/portaleapp%5Cpublic%5Cupload_gallery%5Cimmagini%5C" + foto.immagine + "' class='img_gallery' >";
+				}
+			});
+			
+			
+		}
+	});
+	//append list to ul
+	
+	$("#scheda_gallery").append(scheda).promise().done(function () {
+		
+		
+
+		//refresh list to enhance its styling.
+		//$(this).listview("refresh");
+	});
+}); 
+
+
+
+/* PROMO */
+$(document).on("pagebeforechange", function (e, data) {
+	if (data.toPage[0].id == "azienda_promo") {
+		id_azienda = data.options.stuff;
+	}
+});
+
+
+$(document).on("pagebeforeshow", "#azienda_promo", function () {
+	//get from data - you put this here when the "a" wa clicked in the previous page
+	var info_promo = $(this).data("info");
+	$("#scheda_promo").empty();
+	//string to put HTML in
+	//set up string for adding <li/>
+	var scheda = "";
+	//container for $li to be added
+	$.each(info_promo, function (i, name) {
+		//add the <li> to "li" variable
+		//note the use of += in the variable
+		//meaning I'm adding to the existing data. not replacing it.
+		//store index value in array as id of the <a> tag
+		if (name.id == id_azienda) {
+			
+			// IMMAGINE PRINCIPALE
+			$.each(name.foto, function (i, foto) {
+				if (foto.tipologia == 'promo') {
+					scheda += "<h1>" + foto.titolo + "</h1>";
+					scheda += "<img src='http://www.mvitalia.com/dimostrativi/patrizia/portaleapp%5Cpublic%5Cupload_gallery%5Cimmagini%5C" + foto.immagine + "' class='img_gallery' >";
+				}
+			});
+			
+			
+		}
+	});
+	//append list to ul
+	
+	$("#scheda_promo").append(scheda).promise().done(function () {
+		
+		
+
+		//refresh list to enhance its styling.
+		//$(this).listview("refresh");
+	});
+}); 
+
+/* NEWS */
+$(document).on("pagebeforechange", function (e, data) {
+	if (data.toPage[0].id == "azienda_news") {
+		id_azienda = data.options.stuff;
+	}
+});
+
+
+$(document).on("pagebeforeshow", "#azienda_news", function () {
+	//get from data - you put this here when the "a" wa clicked in the previous page
+	var info_news = $(this).data("info");
+	$("#scheda_news").empty();
+	//string to put HTML in
+	//set up string for adding <li/>
+	var scheda = "";
+	//container for $li to be added
+	$.each(info_news, function (i, name) {
+		//add the <li> to "li" variable
+		//note the use of += in the variable
+		//meaning I'm adding to the existing data. not replacing it.
+		//store index value in array as id of the <a> tag
+		if (name.id == id_azienda) {
+			
+			// IMMAGINE PRINCIPALE
+			$.each(name.foto, function (i, foto) {
+				if (foto.tipologia == 'news') {
+					scheda += "<h1>" + foto.titolo + "</h1>";
+					scheda += "<img src='http://www.mvitalia.com/dimostrativi/patrizia/portaleapp%5Cpublic%5Cupload_gallery%5Cimmagini%5C" + foto.immagine + "' class='img_gallery' >";
+				}
+			});
+			
+			
+		}
+	});
+	//append list to ul
+	
+	$("#scheda_news").append(scheda).promise().done(function () {
+		
+		
+
+		//refresh list to enhance its styling.
+		//$(this).listview("refresh");
+	});
+}); 
+	
+	
 </script>
 </head>
 <body>
@@ -298,7 +441,7 @@ $(document).ready(function(){
         </div>
         
         <div data-role="footer">
-            <a href="#page_info">info</a>    	
+            <a href="#page_info" data-icon="info">info</a>    	
         </div>
     </div>
 
@@ -368,6 +511,7 @@ $(document).ready(function(){
         <div data-role="content">
         	<div data-role="content">
                 <div id="scheda_azienda" data-divider-theme="a" data-inset="true">
+                	
         		</div>
             </div>
         </div>
@@ -382,7 +526,9 @@ $(document).ready(function(){
       </div>
     
       <div data-role="main" class="ui-content">
-        Gallery
+        <div id="scheda_gallery" data-divider-theme="a" data-inset="true">
+                	
+        </div>
         
       </div>
     
@@ -399,7 +545,9 @@ $(document).ready(function(){
       </div>
     
       <div data-role="main" class="ui-content">
-        News
+        <div id="scheda_news" data-divider-theme="a" data-inset="true">
+                	
+        </div>
         
       </div>
     
@@ -417,7 +565,9 @@ $(document).ready(function(){
       </div>
     
       <div data-role="main" class="ui-content">
-        Promo
+        <div id="scheda_promo" data-divider-theme="a" data-inset="true">
+                	
+        </div>
         
       </div>
     
