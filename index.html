@@ -11,48 +11,64 @@
 <script src="js/standard.js"></script>
 
 <script>
+function checkInternet() {
+	var online = window.navigator.onLine;
+	if (!online) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+
 
 // MACROCATEGORIE
 $(document).on("pageinit", "#page_index", function () {
-	$.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp", function(info){
-    	
 	
-		//set up string for adding <li/>
-		var li = "";
-		//container for $li to be added
-		$.each(info, function (i, name) {
-			//add the <li> to "li" variable
-			//note the use of += in the variable
-			//meaning I'm adding to the existing data. not replacing it.
-			//store index value in array as id of the <a> tag
-			li += '<li><a href="#" id="' + name.id_macrocategoria + '" class="macro-go">' + name.macrocategoria + '</a></li>';
-		});
-		//append list to ul
-		$("#lista_macrocategorie").empty();
-		$("#lista_macrocategorie").append(li).promise().done(function () {
-			//wait for append to finish - thats why you use a promise()
-			//done() will run after append is done
-			//add the click event for the redirection to happen to #details-page
-			$(this).on("click", ".macro-go", function (e) {
-				e.preventDefault();
-				//store the information in the next page's data
-				$("#page_categorie").data("info", info);
-				//change the page # to second page. 
-				//Now the URL in the address bar will read index.html#details-page
-				//where #details-page is the "id" of the second page
-				//we're gonna redirect to that now using changePage() method
-				//$.mobile.changePage("#page_categorie");
-				$.mobile.pageContainer.pagecontainer("change", "#page_categorie", {
-					stuff: this.id,
-					transition: "fade"
-				});
-				
+	if (checkInternet) {
+	
+		$.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp", function(info){
+			
+		
+			//set up string for adding <li/>
+			var li = "";
+			//container for $li to be added
+			$.each(info, function (i, name) {
+				//add the <li> to "li" variable
+				//note the use of += in the variable
+				//meaning I'm adding to the existing data. not replacing it.
+				//store index value in array as id of the <a> tag
+				li += '<li><a href="#" id="' + name.id_macrocategoria + '" class="macro-go">' + name.macrocategoria + '</a></li>';
 			});
-	
-			//refresh list to enhance its styling.
-			$(this).listview("refresh");
+			//append list to ul
+			$("#lista_macrocategorie").empty();
+			$("#lista_macrocategorie").append(li).promise().done(function () {
+				//wait for append to finish - thats why you use a promise()
+				//done() will run after append is done
+				//add the click event for the redirection to happen to #details-page
+				$(this).on("click", ".macro-go", function (e) {
+					e.preventDefault();
+					//store the information in the next page's data
+					$("#page_categorie").data("info", info);
+					//change the page # to second page. 
+					//Now the URL in the address bar will read index.html#details-page
+					//where #details-page is the "id" of the second page
+					//we're gonna redirect to that now using changePage() method
+					//$.mobile.changePage("#page_categorie");
+					$.mobile.pageContainer.pagecontainer("change", "#page_categorie", {
+						stuff: this.id,
+						transition: "fade"
+					});
+					
+				});
+		
+				//refresh list to enhance its styling.
+				$(this).listview("refresh");
+			});
 		});
-	});
+	} else {
+		alert('No connection');
+	}
 });
 
 
