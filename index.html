@@ -23,7 +23,7 @@ function checkInternet() {
 }
 // MACROCATEGORIE
 $(document).on("pageinit", "#page_index", function () {
-	$.mobile.page.prototype.options.domCache = true;
+	//$.mobile.page.prototype.options.domCache = true;
 	if (checkInternet) {
 		$.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp", function(info){
 			if($("#lista_macrocategorie").has("li").length > 1){
@@ -468,7 +468,7 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
         <div data-role="header" data-position="fixed">
             <h1>Categorie</h1>
 			
-            <a href="#" data-rel="back" data-icon="back" data-role="button">Indietro</a>
+            <a href="#page_index" data-icon="back" data-role="button" data-direction="reverse">Indietro</a>
             
             <div class="ui-btn-right">
                 <form role="form" class="box_search">
@@ -499,7 +499,7 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
         <div data-role="header" data-position="fixed">
             <h1>Aziende</h1>
 			
-            <a href="#" data-rel="back" data-icon="back" data-role="button">Indietro</a>
+            <a href="#page_categorie" data-icon="back" data-role="button" data-direction="reverse">Indietro</a>
             
             <div class="ui-btn-right">
                 <form role="form" class="box_search">
@@ -528,7 +528,7 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
         <div data-role="header" data-position="fixed">
             <h1>Dettaglio</h1>
 			
-            <a href="#" data-rel="back" data-icon="back" data-role="button">Indietro</a>
+            <a href="#page_lista_aziende" data-icon="back" data-role="button" data-direction="reverse">Indietro</a>
             
             <div class="ui-btn-right">
                 <form role="form" class="box_search">
@@ -578,7 +578,7 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
     <!-- news -->
     <div data-role="page" id="azienda_news" >
       <div data-role="header">
-      	<a href="#" data-rel="back" data-icon="back" data-role="button" data-direction="reverse">Indietro</a>
+      	<a href="#page_dettaglio" data-icon="back" data-role="button" data-direction="reverse">Indietro</a>
         <h1>News</h1>
       </div>
     
@@ -598,7 +598,7 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
     <!-- promo -->
     <div data-role="page" id="azienda_promo">
       <div data-role="header">
-      	<a href="#" data-rel="back" data-icon="back" data-role="button" data-direction="reverse">Indietro</a>
+      	<a href="#page_dettaglio" data-icon="back" data-role="button" data-direction="reverse">Indietro</a>
         <h1>Promo</h1>
       </div>
     
