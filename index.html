@@ -23,7 +23,8 @@ function checkInternet() {
 }
 // MACROCATEGORIE
 $(document).on("pageinit", "#page_index", function () {
-	//$.mobile.page.prototype.options.domCache = true;
+	$.mobile.page.prototype.options.domCache = false;
+	
 	if (checkInternet) {
 		$.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp", function(info){
 			if($("#lista_macrocategorie").has("li").length > 1){
@@ -132,6 +133,7 @@ $(document).on("pagebeforechange", function (e, data) {
 	}
 });
 $(document).on("pagebeforeshow", "#page_lista_aziende", function () {
+	//alert($("#lista_aziende").html() + " - " + $("#lista_aziende").has("li").length);
 	if($("#lista_aziende").has("li").length > 1){
 		$("#lista_aziende").empty();
 		var li_first = "<li class='ui-li-divider ui-bar-b ui-first-child' role='heading' data-theme='b' data-role='list-divider'>Aziende</li>";
@@ -154,7 +156,6 @@ $(document).on("pagebeforeshow", "#page_lista_aziende", function () {
 		}
 	});
 	//append list to ul
-	
 	$("#lista_aziende").append(li).promise().done(function () {
 		//wait for append to finish - thats why you use a promise()
 		//done() will run after append is done
@@ -210,6 +211,15 @@ $(document).on("pagebeforeshow", "#page_dettaglio", function () {
 			scheda += "<div class='info_azienda'><h1>" + name.ragione_sociale + "</h1>"; // RAGIONE SOCIALE
 			scheda += "<p>" + name.indirizzo + " " + name.num + "</p><p>" + name.cap + " " + name.paese + " " + name.provincia + "</div>"; // INDIRIZZO
 			
+			if (name.tipo_contratto != 'base'){
+				scheda +="<div class='box_extra'><a id=" + name.id + " href='#azienda_gallery' data-icon='camera' data-role='button' class='azienda_gallery ui-btn ui-btn-up-a ui-btn-inline ui-icon-camera ui-btn-icon-left ui-corner-all' data-rel='dialog' data-transition='pop'>Gallery</a>";
+				
+				if (name.tipo_contratto != 'intermedio') {
+					scheda +="<a id=" + name.id + " href='#azienda_news' data-icon='calendar' data-role='button' class='azienda_news ui-btn ui-btn-up-a ui-btn-inline ui-icon-calendar ui-btn-icon-left'>News</a>";
+					scheda +="<a id=" + name.id + " href='#azienda_promo' data-icon='heart' data-role='button' class='azienda_promo ui-btn ui-btn-up-a ui-btn-inline ui-icon-heart ui-btn-icon-left'>Promo</a>";
+				}
+				scheda +="</div>"
+			}
 			
 			//scheda += "<div data-role='collapsibleset' data-theme='a' data-content-theme='a' class='ui-collapsible-set ui-group-theme-a ui-corner-all descrizione'>";
 			
@@ -230,15 +240,7 @@ $(document).on("pagebeforeshow", "#page_dettaglio", function () {
 			footer_dettaglio += "<li class='ui-block-d'><a href='tel:" + name.fax + "' data-role='button' class='ui-btn ui-state-persist ui-btn-up-a ui-btn-inline ui-btn-icon-left'>fax</a></li>"; // RIFERIMENTI
 			
 			
-			if (name.tipo_contratto != 'base'){
-				scheda +="<div class='box_extra'><a id=" + name.id + " href='#azienda_gallery' data-icon='camera' data-role='button' class='azienda_gallery ui-btn ui-btn-up-a ui-btn-inline ui-icon-camera ui-btn-icon-left ui-corner-all' data-rel='dialog' data-transition='pop'>Gallery</a>";
-				
-				if (name.tipo_contratto != 'intermedio') {
-					scheda +="<a id=" + name.id + " href='#azienda_news' data-icon='calendar' data-role='button' class='azienda_news ui-btn ui-btn-up-a ui-btn-inline ui-icon-calendar ui-btn-icon-left'>News</a>";
-					scheda +="<a id=" + name.id + " href='#azienda_promo' data-icon='heart' data-role='button' class='azienda_promo ui-btn ui-btn-up-a ui-btn-inline ui-icon-heart ui-btn-icon-left'>Promo</a>";
-				}
-				scheda +="</div>"
-			}
+			
 		}
 	});
 	//append list to ul
@@ -326,7 +328,6 @@ $(document).on("pagebeforeshow", "#azienda_gallery", function () {
 			// IMMAGINE PRINCIPALE
 			$.each(name.foto, function (i, foto) {
 				if (foto.tipologia == 'gallery') {
-					scheda += "<h1>" + foto.titolo + "</h1>";
 					scheda += "<img src='http://www.mvitalia.com/dimostrativi/patrizia/portaleapp%5Cpublic%5Cupload_gallery%5Cimmagini%5C" + foto.immagine + "' class='img_gallery' >";
 				}
 			});
@@ -440,19 +441,21 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
             <h1>Portale App</h1>
 
             <div class="ui-btn-right">
-                <form role="form" class="box_search">
-                    <div class="form-group">
-                      <input type="search" name="search" class="form-control input-lg" data-mini="true" id="search" placeholder="Cerca..."  />
-                    </div>
-                </form>
+                
                 <a href="#settings" class="btn_settings" data-role="button" data-icon="gear">Settings</a>
             </div>
+            
+            <form role="form" class="box_search">
+                <div class="form-group">
+                  <input type="search" name="search" class="form-control input-lg" data-mini="true" id="search" placeholder="Cerca..."  />
+                </div>
+            </form>
         </div>
         
         <div role="main" class="ui-content">
             <div data-role="content">
                 <ul data-role="listview" id="lista_macrocategorie" data-divider-theme="a" data-inset="true">
-            		<li data-role="list-divider" data-theme="b" role="heading">Macrocategorie</li>
+            		<li data-role="list-divider" data-theme="b" role="heading">Seleziona la categoria</li>
         		</ul>
             </div>
         </div>
@@ -471,19 +474,21 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
             <a href="#page_index" data-icon="back" data-role="button" data-direction="reverse">Indietro</a>
             
             <div class="ui-btn-right">
-                <form role="form" class="box_search">
+                
+                <a href="#settings" class="btn_settings" data-role="button" data-icon="gear">Settings</a>
+            </div>
+            
+            <form role="form" class="box_search">
                     <div class="form-group">
                       <input type="search" name="search" class="form-control input-lg" data-mini="true" id="search" placeholder="Cerca..."  />
                     </div>
                 </form>
-                <a href="#settings" class="btn_settings" data-role="button" data-icon="gear">Settings</a>
-            </div>
         </div>
         
         <div data-role="content">
         	<div data-role="content">
                 <ul data-role="listview" id="lista_categorie" data-divider-theme="a" data-inset="true">
-                	<li data-role="list-divider" data-theme="b" role="heading">Categorie</li>
+                	<li data-role="list-divider" data-theme="b" role="heading">Seleziona tipo attività</li>
         		</ul>
             </div>
         
@@ -502,18 +507,20 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
             <a href="#page_categorie" data-icon="back" data-role="button" data-direction="reverse">Indietro</a>
             
             <div class="ui-btn-right">
-                <form role="form" class="box_search">
+                
+                <a href="#settings" class="btn_settings" data-role="button" data-icon="gear">Settings</a>
+            </div>
+            
+            <form role="form" class="box_search">
                     <div class="form-group">
                       <input type="search" name="search" class="form-control input-lg" data-mini="true" id="search" placeholder="Cerca..."  />
                     </div>
                 </form>
-                <a href="#settings" class="btn_settings" data-role="button" data-icon="gear">Settings</a>
-            </div>
         </div>
         <div data-role="content">
         	<div data-role="content">
                 <ul data-role="listview" id="lista_aziende" data-divider-theme="a" data-inset="true">
-            		<li data-role="list-divider" data-theme="b" role="heading">Aziende</li>
+            		<li data-role="list-divider" data-theme="b" role="heading">Elenco aziende trovate</li>
         		</ul>
             </div>
         </div>
@@ -531,13 +538,15 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
             <a href="#page_lista_aziende" data-icon="back" data-role="button" data-direction="reverse">Indietro</a>
             
             <div class="ui-btn-right">
-                <form role="form" class="box_search">
+                
+                <a href="#settings" class="btn_settings" data-role="button" data-icon="gear">Settings</a>
+            </div>
+            
+            <form role="form" class="box_search">
                     <div class="form-group">
                       <input type="search" name="search" class="form-control input-lg" data-mini="true" id="search" placeholder="Cerca..."  />
                     </div>
                 </form>
-                <a href="#settings" class="btn_settings" data-role="button" data-icon="gear">Settings</a>
-            </div>
         </div>
         <div data-role="content">
         	<div data-role="content">
