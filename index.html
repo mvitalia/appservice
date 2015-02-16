@@ -224,11 +224,11 @@ $(document).on("pagebeforeshow", "#page_dettaglio", function () {
 			
 			
 			if (name.tipo_contratto != 'base'){
-				scheda +="<div class='box_extra'><a id=" + name.id + " href='#azienda_gallery' data-icon='camera' data-role='button' class='ui-btn azienda_gallery ui-btn-up-a ui-btn-inline ui-icon-camera ui-btn-icon-left'>Gallery</a>";
+				scheda +="<div class='box_extra'><a id=" + name.id + " href='#azienda_gallery' class='azienda_gallery' data-icon='camera' data-role='button' class='ui-btn ui-btn-up-a ui-btn-inline ui-icon-camera ui-btn-icon-left'>Gallery</a>";
 				
 				if (name.tipo_contratto != 'intermedio') {
-					scheda +="<a id=" + name.id + " href='#azienda_news' data-icon='calendar' data-role='button' class='azienda_news ui-btn ui-btn-up-a ui-btn-inline ui-icon-calendar ui-btn-icon-left'>News</a>";
-					scheda +="<a id=" + name.id + " href='#azienda_promo' data-icon='heart' data-role='button' class='azienda_promo ui-btn ui-btn-up-a ui-btn-inline ui-icon-heart ui-btn-icon-left'>Promo</a>";
+					scheda +="<a id=" + name.id + " href='#azienda_news' class='azienda_news' data-icon='calendar' data-role='button' class='ui-btn ui-btn-up-a ui-btn-inline ui-icon-calendar ui-btn-icon-left'>News</a>";
+					scheda +="<a id=" + name.id + " href='#azienda_promo' class='azienda_promo' data-icon='heart' data-role='button' class='ui-btn ui-btn-up-a ui-btn-inline ui-icon-heart ui-btn-icon-left'>Promo</a>";
 				}
 				scheda +="</div>"
 			}
