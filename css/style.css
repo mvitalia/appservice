@@ -1,17 +1,18 @@
 .txtwrapper{
-    font-size: 24px;
+    font-size: 15px;
 }
 
 
 .box_search {width:300px;float:left}
 
 #scheda_azienda {}
-#scheda_azienda .logo_azienda {float:left;width:15%}
-#scheda_azienda .info_azienda {float:left;padding-left:30px;width:80%}
-#scheda_azienda .info_azienda h1 {}
+#scheda_azienda .logo_azienda {float:left;width:20%}
+#scheda_azienda .info_azienda {float:left;padding-left:30px;width:70%}
+#scheda_azienda .info_azienda h1 {padding:0;margin:0;}
 #scheda_azienda .info_azienda p {margin:0}
 
-#scheda_azienda .descrizione {clear:both}
+#scheda_azienda .descrizione {clear:both;padding-top:20px;text-align:justify}
+#scheda_azienda .servizi {padding-top:20px;text-align:justify}
 
 .img_gallery {width:80%}
 

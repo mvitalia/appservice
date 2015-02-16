@@ -21,15 +21,16 @@ function checkInternet() {
 		return true;
 	}
 }
-
-
-
 // MACROCATEGORIE
 $(document).on("pageinit", "#page_index", function () {
 	
 	if (checkInternet) {
 		$.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp", function(info){
-			
+			if($("#lista_macrocategorie").has("li").length > 1){
+				$("#lista_macrocategorie").empty();
+				var li_first = "<li class='ui-li-divider ui-bar-b ui-first-child' role='heading' data-theme='b' data-role='list-divider'>Macrocategorie</li>";
+				$("#lista_macrocategorie").append(li_first);
+			}
 		
 			//set up string for adding <li/>
 			var li = "";
@@ -42,7 +43,6 @@ $(document).on("pageinit", "#page_index", function () {
 				li += '<li><a href="#" id="' + name.id_macrocategoria + '" class="macro-go">' + name.macrocategoria + '</a></li>';
 			});
 			//append list to ul
-			$("#lista_macrocategorie").empty();
 			$("#lista_macrocategorie").append(li).promise().done(function () {
 				//wait for append to finish - thats why you use a promise()
 				//done() will run after append is done
@@ -71,17 +71,19 @@ $(document).on("pageinit", "#page_index", function () {
 		alert('No connection');
 	}
 });
-
-
 // CATEGORIE
 $(document).on("pagebeforechange", function (e, data) {
 	if (data.toPage[0].id == "page_categorie") {
 		id_macrocategoria = data.options.stuff;
 	}
 });
-
-
 $(document).on("pagebeforeshow", "#page_categorie", function () {
+	if($("#lista_categorie").has("li").length > 1){
+		$("#lista_categorie").empty();
+		var li_first = "<li class='ui-li-divider ui-bar-b ui-first-child' role='heading' data-theme='b' data-role='list-divider'>Categorie</li>";
+		$("#lista_categorie").append(li_first);
+	}
+	
 	//get from data - you put this here when the "a" wa clicked in the previous page
 	var info_categ = $(this).data("info");
 	
@@ -99,7 +101,6 @@ $(document).on("pagebeforeshow", "#page_categorie", function () {
 		}
 	});
 	//append list to ul
-	$("#lista_categorie").empty();
 	$("#lista_categorie").append(li).promise().done(function () {
 		//wait for append to finish - thats why you use a promise()
 		//done() will run after append is done
@@ -118,23 +119,22 @@ $(document).on("pagebeforeshow", "#page_categorie", function () {
 				transition: "fade"
 			});
 		});
-
 		//refresh list to enhance its styling.
 		$(this).listview("refresh");
 	});
 });  
-
-
-
 /* LISTA AZIENDE */
 $(document).on("pagebeforechange", function (e, data) {
 	if (data.toPage[0].id == "page_lista_aziende") {
 		id_categoria = data.options.stuff;
 	}
 });
-
-
 $(document).on("pagebeforeshow", "#page_lista_aziende", function () {
+	if($("#lista_aziende").has("li").length > 1){
+		$("#lista_aziende").empty();
+		var li_first = "<li class='ui-li-divider ui-bar-b ui-first-child' role='heading' data-theme='b' data-role='list-divider'>Aziende</li>";
+		$("#lista_aziende").append(li_first);
+	}
 	//get from data - you put this here when the "a" wa clicked in the previous page
 	var info_azienda = $(this).data("info");
 	
@@ -152,7 +152,7 @@ $(document).on("pagebeforeshow", "#page_lista_aziende", function () {
 		}
 	});
 	//append list to ul
-	$("#lista_aziende").empty();
+	
 	$("#lista_aziende").append(li).promise().done(function () {
 		//wait for append to finish - thats why you use a promise()
 		//done() will run after append is done
@@ -171,24 +171,16 @@ $(document).on("pagebeforeshow", "#page_lista_aziende", function () {
 				transition: "fade"
 			});
 		});
-
 		//refresh list to enhance its styling.
 		$(this).listview("refresh");
 	});
 });  
-
-
-
-
 /*DETTAGLIO*/
-
 $(document).on("pagebeforechange", function (e, data) {
 	if (data.toPage[0].id == "page_dettaglio") {
 		id_azienda = data.options.stuff;
 	}
 });
-
-
 $(document).on("pagebeforeshow", "#page_dettaglio", function () {
 	//get from data - you put this here when the "a" wa clicked in the previous page
 	var info_dettaglio = $(this).data("info");
@@ -217,10 +209,11 @@ $(document).on("pagebeforeshow", "#page_dettaglio", function () {
 			scheda += "<div class='descrizione'>" + name.descrizione + "</div>"; // DESCRIZIONE
 			scheda += "<div class='servizi'>" + name.servizi  + "</div>"; // SERVIZI
 			
+			//<li class='ui-block-a' style="float:left;width:25%"><a href="#page_info" data-icon="info" data-iconpos="left" class="ui-state-persist"></a></li>
+			footer_dettaglio = "<li class='ui-block-a' style='float:left;width:25%'><a href='page_info' data-icon='info' data-role='button' class='ui-btn ui-state-persist ui-btn-up-a ui-btn-inline ui-icon-info ui-btn-icon-left'>Info</a></li>";
 			footer_dettaglio += "<li class='ui-block-b'><a href='mailto:" + name.mail + "' data-icon='mail' data-role='button' class='ui-btn ui-state-persist ui-btn-up-a ui-btn-inline ui-icon-mail ui-btn-icon-left'>E-mail</a></li>";
 			footer_dettaglio += "<li class='ui-block-c'><a href='tel:" + name.tel + "' data-icon='phone' data-role='button'  class='ui-btn ui-state-persist ui-btn-up-a ui-btn-inline ui-icon-phone ui-btn-icon-left'>Tel.</a></li>";
 			footer_dettaglio += "<li class='ui-block-d'><a href='tel:" + name.fax + "' data-role='button' class='ui-btn ui-state-persist ui-btn-up-a ui-btn-inline ui-btn-icon-left'>fax</a></li>"; // RIFERIMENTI
-
 			
 			
 			if (name.tipo_contratto != 'base'){
@@ -291,21 +284,16 @@ $(document).on("pagebeforeshow", "#page_dettaglio", function () {
 			});
 			
 		});
-
 		//refresh list to enhance its styling.
 		//$(this).listview("refresh");
 	});
 }); 
-
-
 /* GALLERY */
 $(document).on("pagebeforechange", function (e, data) {
 	if (data.toPage[0].id == "azienda_gallery") {
 		id_azienda = data.options.stuff;
 	}
 });
-
-
 $(document).on("pagebeforeshow", "#azienda_gallery", function () {
 	//get from data - you put this here when the "a" wa clicked in the previous page
 	var info_gallery = $(this).data("info");
@@ -337,22 +325,16 @@ $(document).on("pagebeforeshow", "#azienda_gallery", function () {
 	$("#scheda_gallery").append(scheda).promise().done(function () {
 		
 		
-
 		//refresh list to enhance its styling.
 		//$(this).listview("refresh");
 	});
 }); 
-
-
-
 /* PROMO */
 $(document).on("pagebeforechange", function (e, data) {
 	if (data.toPage[0].id == "azienda_promo") {
 		id_azienda = data.options.stuff;
 	}
 });
-
-
 $(document).on("pagebeforeshow", "#azienda_promo", function () {
 	//get from data - you put this here when the "a" wa clicked in the previous page
 	var info_promo = $(this).data("info");
@@ -384,20 +366,16 @@ $(document).on("pagebeforeshow", "#azienda_promo", function () {
 	$("#scheda_promo").append(scheda).promise().done(function () {
 		
 		
-
 		//refresh list to enhance its styling.
 		//$(this).listview("refresh");
 	});
 }); 
-
 /* NEWS */
 $(document).on("pagebeforechange", function (e, data) {
 	if (data.toPage[0].id == "azienda_news") {
 		id_azienda = data.options.stuff;
 	}
 });
-
-
 $(document).on("pagebeforeshow", "#azienda_news", function () {
 	//get from data - you put this here when the "a" wa clicked in the previous page
 	var info_news = $(this).data("info");
@@ -429,7 +407,6 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
 	$("#scheda_news").append(scheda).promise().done(function () {
 		
 		
-
 		//refresh list to enhance its styling.
 		//$(this).listview("refresh");
 	});
@@ -492,6 +469,7 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
         <div data-role="content">
         	<div data-role="content">
                 <ul data-role="listview" id="lista_categorie" data-divider-theme="a" data-inset="true">
+                	<li data-role="list-divider" data-theme="b" role="heading">Categorie</li>
         		</ul>
             </div>
         
