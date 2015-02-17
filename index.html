@@ -8,9 +8,13 @@
 <link rel="stylesheet" href="css/default_theme.min.css">
 <link rel="stylesheet" href="css/jquery.mobile.icons.min.css">
 <link rel="stylesheet" href="css/style.css">
+
+
+
 <script src="js/jquery-1.11.2.min.js"></script>
 <script src="js/jquery.mobile-1.4.5.min.js"></script>
 <script src="js/standard.js"></script>
+
 
 <script>
 function checkInternet() {
@@ -215,7 +219,7 @@ $(document).on("pagebeforeshow", "#page_dettaglio", function () {
 			scheda += "<p>" + name.indirizzo + " " + name.num + "</p><p>" + name.cap + " " + name.paese + " " + name.provincia + "</div>"; // INDIRIZZO
 			
 			if (name.tipo_contratto != 'base'){
-				scheda +="<div class='box_extra'><a id=" + name.id + " href='#azienda_gallery' data-icon='camera' data-role='button' class='azienda_gallery ui-btn ui-btn-up-a ui-btn-inline ui-icon-camera ui-btn-icon-left ui-corner-all' data-rel='dialog' data-transition='pop'>Gallery</a>";
+				scheda +="<div class='box_extra'><a id=" + name.id + " href='#azienda_gallery' data-icon='camera' data-role='button' class='azienda_gallery ui-btn ui-btn-up-a ui-btn-inline ui-icon-camera ui-btn-icon-left' data-rel='dialog' data-transition='pop'>Gallery</a>";
 				
 				if (name.tipo_contratto != 'intermedio') {
 					scheda +="<a id=" + name.id + " href='#azienda_news' data-icon='calendar' data-role='button' class='azienda_news ui-btn ui-btn-up-a ui-btn-inline ui-icon-calendar ui-btn-icon-left'>News</a>";
@@ -317,7 +321,7 @@ $(document).on("pagebeforechange", function (e, data) {
 $(document).on("pagebeforeshow", "#azienda_gallery", function () {
 	//get from data - you put this here when the "a" wa clicked in the previous page
 	var info_gallery = $(this).data("info");
-	$("#scheda_gallery").empty();
+	$("#lista_immagini").empty();
 	//string to put HTML in
 	//set up string for adding <li/>
 	var scheda = "";
@@ -332,7 +336,7 @@ $(document).on("pagebeforeshow", "#azienda_gallery", function () {
 			// IMMAGINE PRINCIPALE
 			$.each(name.foto, function (i, foto) {
 				if (foto.tipologia == 'gallery') {
-					scheda += "<img src='http://www.mvitalia.com/dimostrativi/patrizia/portaleapp%5Cpublic%5Cupload_gallery%5Cimmagini%5C" + foto.immagine + "' class='img_gallery' >";
+					scheda += "<div class='swiper-slide' style='background-image:url(http://www.mvitalia.com/dimostrativi/patrizia/portaleapp%5Cpublic%5Cupload_gallery%5Cimmagini%5C" + foto.immagine + ")'></div>";
 				}
 			});
 			
@@ -341,7 +345,7 @@ $(document).on("pagebeforeshow", "#azienda_gallery", function () {
 	});
 	//append list to ul
 	
-	$("#scheda_gallery").append(scheda).promise().done(function () {
+	$("#lista_immagini").append(scheda).promise().done(function () {
 		
 		
 		//refresh list to enhance its styling.
@@ -442,7 +446,7 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
     <div data-role="page" id="page_index">
     
         <div data-role="header" data-position="fixed">
-            <h1>Portale App</h1>
+            <img src="img/logo_trovoperte.png" height="50" >
 
             <div class="ui-btn-right">
                 
@@ -473,7 +477,7 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
 	<!-- categorie -->
     <div data-role="page" id="page_categorie">
         <div data-role="header" data-position="fixed">
-            <h1>Categorie</h1>
+            <img src="img/logo_trovoperte.png" height="50" >
 			
             <a href="#page_index" data-icon="back" data-role="button" data-direction="reverse">Indietro</a>
             
@@ -506,7 +510,7 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
 	<!-- lista aziende -->
 	<div data-role="page" id="page_lista_aziende">
         <div data-role="header" data-position="fixed">
-            <h1>Aziende</h1>
+            <img src="img/logo_trovoperte.png" height="50" >
 			
             <a href="#page_index" data-icon="back" data-role="button" data-direction="reverse">Indietro</a>
             
@@ -537,7 +541,7 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
     <!-- dettaglio -->
     <div data-role="page" id="page_dettaglio" data-url="page_dettaglio">
         <div data-role="header" data-position="fixed">
-            <h1>Dettaglio</h1>
+            <img src="img/logo_trovoperte.png" height="50" >
 			
             <a href="#page_index" data-icon="back" data-role="button" data-direction="reverse">Indietro</a>
             
@@ -577,11 +581,24 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
       </div>
     
       <div data-role="main" class="ui-content">
+      	<!-- Swiper -->
         <div id="scheda_gallery" data-divider-theme="a" data-inset="true">
-                	
+            <div class="swiper-container">
+                <div class="swiper-wrapper" id="lista_immagini">
+                    
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination swiper-pagination-white"></div>
+                <!-- Add Arrows -->
+                <div class="swiper-button-next swiper-button-white"></div>
+                <div class="swiper-button-prev swiper-button-white"></div>
+            </div>                	
         </div>
         
       </div>
+      
+      
+      
     
       <div data-role="footer" data-position="fixed">
         <a href="#page_info" data-icon="info" class="btn_info">info</a>    	

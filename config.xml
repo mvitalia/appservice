@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="com.app.service" version="1.0.0" >		
 		
-    <name>App Service</name>
+    <name>Trovo per te</name>
     <description>
-        App Service: il portale creato apposta per te, per trovare in mondo facile e veloce quello che ti serve nel tuo territorio.
+        Trovo per te: il portale creato apposta per te, per trovare in mondo facile e veloce quello che ti serve nel tuo territorio.
     </description>
 	<!--<icon  src="icon.png"  />
 	<icon src="icon-57.png" gap:platform="ios" width="57" height="57" />

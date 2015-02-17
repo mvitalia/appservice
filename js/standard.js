@@ -23,7 +23,7 @@ $(window).load(function(){
 	});
 });
 
-
+/* dimensione testo */
 
 $(document).on('vclick', '.small', function(e){
     $(".txtwrapper").css('font-size', '15px');
@@ -36,6 +36,12 @@ $(document).on('vclick', '.med', function(e){
 $(document).on('vclick', '.large', function(e){
     $(".txtwrapper").css('font-size', '25px');
 });
+
+
+
+
+
+
 
 
 function parseGetVars()
