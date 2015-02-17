@@ -147,6 +147,11 @@ $(document).on("pagebeforechange", function (e, data) {
 });
 $(document).on("pagebeforeshow", "#page_lista_aziende", function () {
 	$("#lista_aziende").empty();
+	$("#scheda_azienda").empty();
+	$("#footer_dettaglio").empty();
+	
+	var li_test = '<li><span class="testo_finto">testo</span></li>';
+	$("#footer_dettaglio").append(li_test);
 	
 	//alert($("#lista_aziende").html() + " - " + $("#lista_aziende").has("li").length);
 	//if($("#lista_aziende").has("li").length > 1){
