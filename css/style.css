@@ -4,12 +4,12 @@ html, body {
 	padding:0;
 	margin:0
 }
-.logo_trovo {width:50%; max-height:50px}
+.logo_trovo {width:46%; max-height:50px}
 .ui-header  {text-align:center}
 .txtwrapper{
     font-size: 15px;
 }
-.box_search {margin-bottom:0  !important}
+.box_search {margin-top:10px;margin-bottom:0  !important}
 
 .testo_finto {display:none}
 
