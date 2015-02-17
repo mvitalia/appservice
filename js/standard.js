@@ -2,14 +2,23 @@
 
 $(window).load(function(){
 	$('#search').keyup(function(){
+		alert('prova');
 		var searchField = $('#search').val();
 		var regex = new RegExp(searchField, "i");
 		var output = '<div class="row"><ul>';
 		var count = 1;
 		$.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp", function(data) {
 		  $.each(data, function(key, val){
-			if ((val.ragione_sociale.search(regex) != -1) || (val.categoria.search(regex) != -1)) {
-			  output += "<li id='" + val.ID + "'><a data-transition='pop' href='page/dettaglio.html?id=" + val.ID + "'><img src=''>" + val.ragione_sociale + "</a></li>";
+			if ((val.ragione_sociale.search(regex) != -1) || (val.servizi.search(regex) != -1) || (val.macrocategoria.search(regex) != -1) || (val.categoria.search(regex) != -1) || (val.paese.search(regex) != -1)) {
+			  //output += "<li id='" + val.ID + "'><a data-transition='pop' href='page/dettaglio.html?id=" + val.ID + "'><img src=''>" + val.ragione_sociale + "</a></li>";
+			  output += '<li><a href="#" id="' + val.id + '" class="azienda-go">';
+
+			  if (name.foto_principale != "" && name.foto_princinpale != "undefined" ){
+			  	output += '<img src="http://www.mvitalia.com/dimostrativi/patrizia/portaleapp%5Cpublic%5Cupload_gallery%5Cimmagini%5C' + val.foto_principale + '" class="ui-li-thumb"/>';
+			  }
+			  output += '<h3 class="ui-li-heading">' + val.ragione_sociale + '</h3><p class="ui-li-desc">' + val.paese + '</p></a></li>';
+			  
+			  
 			  
 			  if(count%2 == 0){
 				output += '</div><div class="row">'

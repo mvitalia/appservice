@@ -9,13 +9,18 @@ html, body {
 .txtwrapper{
     font-size: 15px;
 }
-.box_search {margin-top:10px;margin-bottom:0  !important}
+
+
+.box_search {margin-top:10px;margin-bottom:0  !important;width:100%; clear:both}
+.btn_settings {float:right}
+.btn_search {clear:both; width:100%;position:relative !important; margin-top:10px !important; padding-bottom:10px !important}
+
 
 .testo_finto {display:none}
 
-.btn_settings {float:right}
-.box_search {width:100%; clear:both}
 
+
+/* scheda azienda */
 #scheda_azienda {}
 #scheda_azienda .logo_azienda {float:left;width:20%}
 #scheda_azienda .info_azienda {float:left;padding-left:30px;width:70%}
@@ -24,12 +29,16 @@ html, body {
 
 
 #scheda_azienda .box_extra {clear:both; text-align:center}
-
-
 #scheda_azienda .descrizione {clear:both;padding-top:0px;text-align:justify}
 #scheda_azienda .servizi {padding-top:20px;text-align:justify}
 
+#scheda_azienda h3 {width:100%; border-bottom:1px solid silver}
+
 .img_gallery {width:100%}
+/* fine scheda azienda */
+
+
+
 
 #footer_dettaglio { background-color:#f4f4f4}
 
