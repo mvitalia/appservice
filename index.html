@@ -31,6 +31,15 @@ $(document).on("pageinit", "#page_index", function () {
 	
 	if (checkInternet) {
 		$.getJSON("http://www.mvitalia.com/dimostrativi/patrizia/portaleapp/admin/get_json_data.asp", function(info){
+			$(".btn_search").bind( "change", function(event, ui) {
+  				$.mobile.pageContainer.pagecontainer("change", "#page_ricerca", {
+					stuff: this.id,
+					transition: "fade"
+				});
+				
+				
+			});
+			
 			if($("#lista_macrocategorie").has("li").length > 1){
 				$("#lista_macrocategorie").empty();
 				var li_first = "<li class='ui-li-divider ui-bar-b ui-first-child' role='heading' data-theme='b' data-role='list-divider'>Seleziona la categoria</li>";
@@ -69,23 +78,11 @@ $(document).on("pageinit", "#page_index", function () {
 						stuff: this.id,
 						transition: "fade"
 					});
+					//$.mobile.changePage( "page/prova.html", { transition: "fade"}, data: $("form#search").serialize() );
 					
 				});
 				
-				$(this).on("click", ".btn_search", function (e) {
-					e.preventDefault();
-					//store the information in the next page's data
-					$("#page_ricerca").data("info", info);
-					//change the page # to second page. 
-					//Now the URL in the address bar will read index.html#details-page
-					//where #details-page is the "id" of the second page
-					//we're gonna redirect to that now using changePage() method
-					//$.mobile.changePage("#page_lista_aziende");
-					$.mobile.pageContainer.pagecontainer("change", "#page_ricerca", {
-						stuff: this.id,
-						transition: "fade"
-					});
-				});
+				
 		
 				//refresh list to enhance its styling.
 				$(this).listview("refresh");
@@ -148,20 +145,7 @@ $(document).on("pagebeforeshow", "#page_categorie", function () {
 				transition: "fade"
 			});
 		});
-		$(this).on("click", ".btn_search", function (e) {
-			e.preventDefault();
-			//store the information in the next page's data
-			$("#page_ricerca").data("info", info_categ);
-			//change the page # to second page. 
-			//Now the URL in the address bar will read index.html#details-page
-			//where #details-page is the "id" of the second page
-			//we're gonna redirect to that now using changePage() method
-			//$.mobile.changePage("#page_lista_aziende");
-			$.mobile.pageContainer.pagecontainer("change", "#page_ricerca", {
-				stuff: this.id,
-				transition: "fade"
-			});
-		});
+	
 		//refresh list to enhance its styling.
 		$(this).listview("refresh");
 	});
@@ -227,20 +211,7 @@ $(document).on("pagebeforeshow", "#page_lista_aziende", function () {
 			});
 		});
 		
-		$(this).on("click", ".btn_search", function (e) {
-			e.preventDefault();
-			//store the information in the next page's data
-			$("#page_ricerca").data("info", info_azienda);
-			//change the page # to second page. 
-			//Now the URL in the address bar will read index.html#details-page
-			//where #details-page is the "id" of the second page
-			//we're gonna redirect to that now using changePage() method
-			//$.mobile.changePage("#page_lista_aziende");
-			$.mobile.pageContainer.pagecontainer("change", "#page_ricerca", {
-				stuff: this.id,
-				transition: "fade"
-			});
-		});
+		
 		//refresh list to enhance its styling.
 		$(this).listview("refresh");
 	});
@@ -254,8 +225,12 @@ $(document).on("pagebeforechange", function (e, data) {
 $(document).on("pagebeforeshow", "#page_dettaglio", function () {
 	//get from data - you put this here when the "a" wa clicked in the previous page
 	var info_dettaglio = $(this).data("info");
-	//$("#scheda_azienda").empty();
-	//$("#footer_dettaglio").empty();
+	/*$("#scheda_azienda").empty();
+	$("#scheda_azienda").html =  '<span class="testo_finto">testo</span>';
+	$("#footer_dettaglio").empty();
+	$("#footer_dettaglio").html =  '<span class="testo_finto">testo</span>';
+	*/
+	
 	//string to put HTML in
 	//set up string for adding <li/>
 	var scheda = "";
@@ -369,20 +344,7 @@ $(document).on("pagebeforeshow", "#page_dettaglio", function () {
 			
 		});
 		
-		$(this).on("click", ".btn_search", function (e) {
-			e.preventDefault();
-			//store the information in the next page's data
-			$("#page_ricerca").data("info", info_dettaglio);
-			//change the page # to second page. 
-			//Now the URL in the address bar will read index.html#details-page
-			//where #details-page is the "id" of the second page
-			//we're gonna redirect to that now using changePage() method
-			//$.mobile.changePage("#page_lista_aziende");
-			$.mobile.pageContainer.pagecontainer("change", "#page_ricerca", {
-				stuff: this.id,
-				transition: "fade"
-			});
-		});
+	
 		//refresh list to enhance its styling.
 		//$(this).listview("refresh");
 	});
@@ -400,6 +362,7 @@ $(document).on("pagebeforeshow", "#azienda_gallery", function () {
 	//string to put HTML in
 	//set up string for adding <li/>
 	var scheda = "";
+	var count = 0;
 	//container for $li to be added
 	$.each(info_gallery, function (i, name) {
 		//add the <li> to "li" variable
@@ -412,8 +375,13 @@ $(document).on("pagebeforeshow", "#azienda_gallery", function () {
 			$.each(name.foto, function (i, foto) {
 				if (foto.tipologia == 'gallery') {
 					scheda += "<div class='swiper-slide' style='background-image:url(http://www.mvitalia.com/dimostrativi/patrizia/portaleapp%5Cpublic%5Cupload_gallery%5Cimmagini%5C" + foto.immagine + ")'></div>";
+					count += 1;
 				}
 			});
+			
+			if (count == 0) {
+				scheda += "Nessuna immagine da visualizzare";
+			}
 			
 			
 		}
@@ -440,6 +408,7 @@ $(document).on("pagebeforeshow", "#azienda_promo", function () {
 	//string to put HTML in
 	//set up string for adding <li/>
 	var scheda = "";
+	var count = 0;
 	//container for $li to be added
 	$.each(info_promo, function (i, name) {
 		//add the <li> to "li" variable
@@ -453,8 +422,13 @@ $(document).on("pagebeforeshow", "#azienda_promo", function () {
 				if (foto.tipologia == 'promo') {
 					scheda += "<h1>" + foto.titolo + "</h1>";
 					scheda += "<img src='http://www.mvitalia.com/dimostrativi/patrizia/portaleapp%5Cpublic%5Cupload_gallery%5Cimmagini%5C" + foto.immagine + "' class='img_gallery' >";
+					count += 1;
 				}
 			});
+			
+			if (count == 0) {
+				scheda += "Nessuna promo da visualizzare";
+			}
 			
 			
 		}
@@ -481,6 +455,7 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
 	//string to put HTML in
 	//set up string for adding <li/>
 	var scheda = "";
+	var count = 0;
 	//container for $li to be added
 	$.each(info_news, function (i, name) {
 		//add the <li> to "li" variable
@@ -494,9 +469,13 @@ $(document).on("pagebeforeshow", "#azienda_news", function () {
 				if (foto.tipologia == 'news') {
 					scheda += "<h1>" + foto.titolo + "</h1>";
 					scheda += "<img src='http://www.mvitalia.com/dimostrativi/patrizia/portaleapp%5Cpublic%5Cupload_gallery%5Cimmagini%5C" + foto.immagine + "' class='img_gallery' >";
+					count += 1;
 				}
 			});
 			
+			if (count == 0) {
+				scheda += "Nessuna news da visualizzare";
+			}
 			
 		}
 	});
@@ -518,6 +497,7 @@ $(document).on("pagebeforechange", function (e, data) {
 $(document).on("pagebeforeshow", "#page_ricerca", function () {
 	//get from data - you put this here when the "a" wa clicked in the previous page
 	var info_ricerca = $(this).data("info");
+	
 	//$("#results").empty(); // azzerare ricerca
 	//string to put HTML in
 	//set up string for adding <li/>
@@ -622,14 +602,13 @@ $(document).on("pagebeforeshow", "#page_ricerca", function () {
         <div data-role="header" data-position="fixed">
             <img src="img/logo_trovoperte.png" class="logo_trovo" >
 			
-            <a href="#page_index" data-icon="back" data-role="button" data-direction="reverse">&nbsp;</a>
+            <a href="#page_index" data-icon="home" data-role="button" >&nbsp;</a>
             
             <div class="ui-btn-right">
                 
                 <a href="#settings" class="btn_settings" data-role="button" data-icon="gear">&nbsp;</a>
             </div>
             
-            <a href="#page_ricerca" class="btn_search" data-role="button" data-icon="search">Cerca</a>
         </div>
         
         <div data-role="content">
@@ -651,14 +630,13 @@ $(document).on("pagebeforeshow", "#page_ricerca", function () {
         <div data-role="header" data-position="fixed">
             <img src="img/logo_trovoperte.png" class="logo_trovo" >
 			
-            <a href="#page_index" data-icon="back" data-role="button" data-direction="reverse">&nbsp;</a>
+            <a href="#page_index" data-icon="home" data-role="button" >&nbsp;</a>
             
             <div class="ui-btn-right">
                 
                 <a href="#settings" class="btn_settings" data-role="button" data-icon="gear">&nbsp;</a>
             </div>
             
-            <a href="#page_ricerca" class="btn_search" data-role="button" data-icon="search">Cerca</a>
         </div>
         <div data-role="content">
         	<div data-role="content">
@@ -678,14 +656,13 @@ $(document).on("pagebeforeshow", "#page_ricerca", function () {
         <div data-role="header" data-position="fixed">
             <img src="img/logo_trovoperte.png" class="logo_trovo" >
 			
-            <a href="#page_index" data-icon="back" data-role="button" data-direction="reverse">&nbsp;</a>
+            <a href="#page_index" data-icon="home" data-role="button">&nbsp;</a>
             
             <div class="ui-btn-right">
                 
                 <a href="#settings" class="btn_settings" data-role="button" data-icon="gear">&nbsp;</a>
             </div>
             
-            <a href="#page_ricerca" class="btn_search" data-role="button" data-icon="search">Cerca</a>
         </div>
         <div data-role="content">
         	<div data-role="content">
@@ -708,7 +685,7 @@ $(document).on("pagebeforeshow", "#page_ricerca", function () {
     <!-- gallery -->
     <div data-role="page" id="azienda_gallery" data-url="azienda_gallery">
       <div data-role="header">
-      	<a href="#page_dettaglio" data-icon="back" data-role="button" data-direction="reverse">&nbsp;</a>
+      	<a href="#page_dettaglio" data-icon="back" data-role="button" >&nbsp;</a>
         <h1>Gallery</h1>
       </div>
     
@@ -740,7 +717,7 @@ $(document).on("pagebeforeshow", "#page_ricerca", function () {
     <!-- news -->
     <div data-role="page" id="azienda_news" >
       <div data-role="header">
-      	<a href="#page_dettaglio" data-icon="back" data-role="button" data-direction="reverse">&nbsp;</a>
+      	<a href="#page_dettaglio" data-icon="back" data-role="button">&nbsp;</a>
         <h1>News</h1>
       </div>
     
@@ -760,7 +737,7 @@ $(document).on("pagebeforeshow", "#page_ricerca", function () {
     <!-- promo -->
     <div data-role="page" id="azienda_promo">
       <div data-role="header">
-      	<a href="#page_dettaglio" data-icon="back" data-role="button" data-direction="reverse">&nbsp;</a>
+      	<a href="#page_dettaglio" data-icon="back" data-role="button" >&nbsp;</a>
         <h1>Promo</h1>
       </div>
     
@@ -780,7 +757,7 @@ $(document).on("pagebeforeshow", "#page_ricerca", function () {
 	<!-- ricerca -->
 	<div id="page_ricerca" data-role="page">
         <div data-role="header">
-            <a href="#" data-rel="back" data-icon="back" data-icon="back" >&nbsp;</a>
+            <a href="#page_index" data-icon="home" data-role="button">&nbsp;</a>
             <h1>Ricerca</h1>
             
             <form role="form" class="box_search">
