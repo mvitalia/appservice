@@ -99,6 +99,7 @@ $(document).on("pagebeforechange", function (e, data) {
 	}
 });
 $(document).on("pagebeforeshow", "#page_categorie", function () {	
+	//alert($("#lista_categorie").has("li").length);
 	//if($("#lista_categorie").has("li").length > 1){
 		$("#lista_categorie").empty();
 		var li_first = "<li class='ui-li-divider ui-bar-b ui-first-child' role='heading' data-theme='b' data-role='list-divider'>Seleziona tipo attività</li>";
