@@ -507,7 +507,6 @@ $(document).on("pagebeforeshow", "#page_ricerca", function () {
 	
 	//append list to ul
 	$('#search').keyup(function(){
-		
 		var searchField = $('#search').val();
 		var regex = new RegExp(searchField, "i");
 		var output = '';
@@ -516,7 +515,7 @@ $(document).on("pagebeforeshow", "#page_ricerca", function () {
 			$.each(info, function (key, val) {
 				if ((val.ragione_sociale.search(regex) != -1) || (val.servizi.search(regex) != -1) || (val.macrocategoria.search(regex) != -1) || (val.categoria.search(regex) != -1) || (val.paese.search(regex) != -1)) {
 				  //output += "<li id='" + val.ID + "'><a data-transition='pop' href='page/dettaglio.html?id=" + val.ID + "'><img src=''>" + val.ragione_sociale + "</a></li>";
-				  output += '<li><a href="#" id="' + val.id + '" class="azienda-go">';
+				  output += '<li class="ui-li-has-thumb ui-last-child"><a href="#" id="' + val.id + '" class="azienda-go ui-btn ui-btn-icon-right ui-icon-carat-r">';
 	
 				  if (name.foto_principale != "" && name.foto_princinpale != "undefined" ){
 					output += '<img src="http://www.mvitalia.com/dimostrativi/patrizia/portaleapp%5Cpublic%5Cupload_gallery%5Cimmagini%5C' + val.foto_principale + '" class="ui-li-thumb"/>';
@@ -547,7 +546,7 @@ $(document).on("pagebeforeshow", "#page_ricerca", function () {
 				});
 			 });
 			  
-			  
+			  $(this).listview("refresh");
 	   	  });
 		  
 		  
